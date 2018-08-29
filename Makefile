@@ -1,4 +1,4 @@
-SRC_NAME = error.c utils.c
+SRC_NAME = error.c utils.c read.c
 SRC_PATH = src/
 OBJ_PATH = obj/
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -14,7 +14,7 @@ all: $(NAME1)
 
 $(NAME1): $(OBJ)
 	cd libft && make
-	$(CC) $(CFLAGS) ft_checker/checker.c -o $@ $^ $(LIB)
+	$(CC) $(CFLAGS) checker.c -o $@ $^ $(LIB)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir $(OBJ_PATH) 2> /dev/null || true

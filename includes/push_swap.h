@@ -16,14 +16,36 @@ typedef struct		s_ctrl
 	size_t			size;
 }					t_ctrl;
 
+typedef enum		e_move
+{
+	SA = 1,
+ 	SB,
+	SS,
+	PA,
+	PB,
+	RA,
+	RB,
+	RR,
+	RRA,
+	RRB,
+	RRR
+}					t_move;
+
 /*
-** error_handler.c
+** read.c
 */
+int			read_and_execute(t_ctrl *ctrl, t_node *node);
+int			parse_input(t_node **move, char *buf);
+int			read_input(t_node **move);
+
+/*
+ ** error_handler.c
+ */
 int			check_error(char **av);
 int			put_return(char *msg, int fd);
 
 /*
-** utils.c
-*/
+ ** utils.c
+ */
 long long int	ps_atoi(const char *str);
 #endif

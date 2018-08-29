@@ -6,11 +6,11 @@
 /*   By: ablin <ablin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/27 20:06:00 by ablin             #+#    #+#             */
-/*   Updated: 2018/08/28 21:40:40 by ablin            ###   ########.fr       */
+/*   Updated: 2018/08/29 18:11:32 by ablin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/checker.h"
+#include "includes/checker.h"
 
 void		test(t_ctrl *ctrl, t_node *lst)
 {
@@ -119,7 +119,9 @@ int			main(int ac, char **av)
 	if (cycle_stack(&lst, av, ac) == -1)
 		return (put_return("Error\n", 2));
 	fill_ctrl(&ctrl, lst);
-	test(ctrl, lst);
+	test(ctrl, lst);//
+	if (read_and_execute(ctrl, lst) == -1)
+		return (put_return("Error\n", 2));
 	free_lst(ctrl, lst);
 	return (0);
 }
