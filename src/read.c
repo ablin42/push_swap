@@ -6,7 +6,7 @@
 /*   By: ablin <ablin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 17:49:36 by ablin             #+#    #+#             */
-/*   Updated: 2018/08/30 00:42:31 by ablin            ###   ########.fr       */
+/*   Updated: 2018/08/30 20:18:39 by ablin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_node		*add_ins(t_node *move, int movenb)
 	return (move);
 }
 
-t_node		*cycle_arg(t_node **move, char *buf)
+int			cycle_arg(t_node **move, char *buf)
 {
 	char	*tab[11];
 	int		i;
@@ -80,40 +80,34 @@ t_node		*cycle_arg(t_node **move, char *buf)
 		}
 		i++;
 	}
-	return (NULL);
+	return (-1);
 }
 
 int			parse_input(t_node **move, char *buf)
 {
 	int		i;
-	char	*tmp;
 
 	i = 0;
-	tmp = ft_strdup(buf);
-	while (tmp[i] != '\0')
-	{
-		if (tmp[i] == '\n')
-			tmp[i] = '\0';
-		i++;
-	}
-	cycle_arg(move, tmp);
-	free(tmp);
+	if (ft_strlen(buf) != 2 && ft_strlen(buf) != 3)
+		return (-1);
+	if (cycle_arg(move, buf) == -1)
+		return (-1);
 	return (0);
 }
 
 int			read_input(t_node **move)
 {
 	int		rd;
-	char	buf[4];
+	char	*buf;
 
 	rd = 0;
-	while ((rd = read(0, buf, 4)) >= 3)//2 + \n ou 3 + \n
+	while (get_next_line(0, &buf) > 0)
 	{
+		if (buf[0] == '\0')
+			break ;
 		if (parse_input(move, buf) == -1)
 			return (-1);
 		test2(*move);
-		if (buf[0] == '\n')//check errors
-			break ;
 	}
 	return (0);
 }

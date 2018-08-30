@@ -6,7 +6,7 @@
 /*   By: ablin <ablin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/27 20:06:00 by ablin             #+#    #+#             */
-/*   Updated: 2018/08/29 18:11:32 by ablin            ###   ########.fr       */
+/*   Updated: 2018/08/30 20:29:44 by ablin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ t_node		*add_node(t_node *lst, int nb)
 			return (NULL);
 		tmp = tmp->next;
 	}
+	if (nb == tmp->nb)
+		return (NULL);
 	tmp->next = element;
 	return (lst);
 }
