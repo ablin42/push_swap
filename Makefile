@@ -1,4 +1,4 @@
-SRC_NAME = error.c utils.c read.c
+SRC_NAME = error.c utils.c read.c moves.c
 SRC_PATH = src/
 OBJ_PATH = obj/
 OBJ_NAME = $(SRC_NAME:.c=.o)

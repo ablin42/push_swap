@@ -33,6 +33,16 @@ int			read_and_execute(t_ctrl *ctrl, t_node *lst)
 	move = NULL;
 	if (read_input(&move) == -1)
 		return (-1);
+	while (1)
+	{
+		if (move->nb == 1)
+			move_swap(ctrl, &lst, move->nb);
+		test(ctrl, lst);
+		if (move->next == NULL)
+			break ;
+		move = move->next;
+	}
+		
 	return (0);
 }
 

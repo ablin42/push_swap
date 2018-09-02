@@ -14,17 +14,17 @@
 
 void		test(t_ctrl *ctrl, t_node *lst)
 {
-	ft_putchar('[');
+	ft_putstr("HEAD = [");
 	ft_putnbr(ctrl->head->nb);
-	ft_putstr("][");
+	ft_putstr("] TAIL = [");
 	ft_putnbr(ctrl->tail->nb);
-	ft_putstr("][");
+	ft_putstr("] SIZE = [");
 	ft_putnbr(ctrl->size);
 	ft_putstr("]\n");
 	while (lst->next != NULL && ctrl->tail != lst)
 	{
 		ft_putnbr(lst->nb);
-		ft_putchar('\n');
+		ft_putchar(' ');
 		lst = lst->next;
 	}
 	ft_putnbr(lst->nb);

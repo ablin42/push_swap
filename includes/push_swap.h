@@ -32,6 +32,12 @@ typedef enum		e_move
 }					t_move;
 
 /*
+** moves.c
+*/
+void		move_swap(t_ctrl *ctrl, t_node **lst, int nbmove);
+
+void		test(t_ctrl *ctrl, t_node *lst);
+/*
 ** read.c
 */
 int			read_and_execute(t_ctrl *ctrl, t_node *node);
