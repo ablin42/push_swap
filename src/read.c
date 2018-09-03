@@ -6,7 +6,7 @@
 /*   By: ablin <ablin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 17:49:36 by ablin             #+#    #+#             */
-/*   Updated: 2018/09/03 02:46:42 by ablin            ###   ########.fr       */
+/*   Updated: 2018/09/03 22:10:42 by ablin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,20 @@
 void		ps_cycle_move(t_ctrl **ctrl, t_node **stka,
 		t_node **stkb,  t_node *move)
 {
-	t_move	handle[3] = {{ "123", move_swap },
-						{ "4", move_push_a },
-						{ "5", move_push_b }};
+	t_move	handle[5] = {{ 1, 2, 3, move_swap },
+						{ 4, 4, 4, move_push_a },
+						{ 5, 5, 5, move_push_b },
+						{ 6, 7, 8, move_rotate},
+						{ 9, 10, 11, move_r_rotate}};
 	int			i;
 
 	while (1)
 	{
 		i = 0;
-		while (i < 3)
+		while (i < 5)
 		{
-			if (ft_strchr(handle[i].nbmove, move->nb + '0') != NULL)
+			if (move->nb == handle[i].nb1 || move->nb == handle[i].nb2
+			|| move->nb == handle[i].nb3)
 				handle[i].move_op(ctrl, stka, stkb, move->nb);
 			i++;
 		}
@@ -47,14 +50,14 @@ int			ps_read_and_execute(t_ctrl **ctrl, t_node **stka)
 	if (ps_read_input(&move) == -1)
 		return (-1);
 	ps_cycle_move(ctrl, stka, &stkb, move);
-/*	while ((*stka) != NULL && (*stka)->next != NULL)
+	while ((*stka) != NULL && (*stka)->next != NULL)
 	{
+		if ((*stka)->nb > (*stka)->next->nb || (*ctrl)->size_b != 0)
+			return (put_return("KO\n", 1));
 		if ((*stka)->next == (*ctrl)->tail_a)
 			break;
 		(*stka) = (*stka)->next;
-		if ((*stka)->nb > (*stka)->next->nb)//check if stkb is empty
-			return (put_return("KO\n", 1));
-	}*/
+	}
 	return (put_return("OK\n", 1));
 }
 

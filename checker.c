@@ -6,7 +6,7 @@
 /*   By: ablin <ablin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/27 20:06:00 by ablin             #+#    #+#             */
-/*   Updated: 2018/09/03 02:50:07 by ablin            ###   ########.fr       */
+/*   Updated: 2018/09/03 21:09:08 by ablin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int			ps_cycle_stack(t_node **stka, char **av, int ac)
 	return (0);
 }
 
-void		fill_ctrl(t_ctrl **ctrl, t_node *stka)
+void		ps_fill_ctrl(t_ctrl **ctrl, t_node *stka)
 {
 	t_node	*tmp;
 
@@ -93,7 +93,7 @@ int			main(int ac, char **av)
 	t_ctrl	*ctrl;
 
 	if (ac == 1)
-		return (put_return("OK\n", 1));
+		return (0); //not meant to print OK apparently
 	if (check_error(av) != 0)
 		return (put_return("Error\n", 2));
 	if ((ctrl = (t_ctrl *)malloc(sizeof(t_ctrl))) == NULL)
@@ -102,7 +102,7 @@ int			main(int ac, char **av)
 	ctrl->size_b = 0;
 	if (ps_cycle_stack(&stka, av, ac) == -1)
 		return (put_return("Error\n", 2));
-	fill_ctrl(&ctrl, stka);
+	ps_fill_ctrl(&ctrl, stka);
 	ps_print_stacks(ctrl, stka, NULL);//
 	if (ps_read_and_execute(&ctrl, &stka) == -1)
 		return (put_return("Error\n", 2));

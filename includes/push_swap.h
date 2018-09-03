@@ -36,7 +36,9 @@ typedef enum		e_move_nb
 
 typedef struct		s_move
 {
-	char			*nbmove;
+	int				nb1;
+	int				nb2;
+	int				nb3;
 	void			(*move_op)(t_ctrl **, t_node **, t_node **, int);
 }					t_move;
 
@@ -48,10 +50,12 @@ t_node		*ps_add_node(t_node *lst, int nb);
 void		ps_free_lst(t_ctrl *ctrl, t_node *stka);
 int			ps_cycle_stack(t_node **lst, char **av, int ac);
 
-
 /*
 ** moves.c
 */
+t_node		*ps_add_node_front(t_node *stk, int nb);
+void		move_r_rotate(t_ctrl **ctrl, t_node **stka, t_node **stkb,int nbmove);
+void		move_rotate(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove);
 void		move_swap(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove);
 void		move_push_a(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove);
 void		move_push_b(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove);
