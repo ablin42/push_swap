@@ -20,7 +20,7 @@ void		ps_print_ctrl(t_ctrl *ctrl)
 	if (ctrl->size_b != 0)
 		ft_printf("HEAD_B = [%d] | TAIL_B = [%d] | SIZE_B = [%d]\n",
 		ctrl->head_b->nb, ctrl->tail_b->nb, ctrl->size_b);
-	ft_printf("%-10s %10s\n", "STACK_A", "STACK_B");
+	ft_printf("%-12s %12s\n-------------------------\n", "STACK_A", "STACK_B");
 }
 
 void		ps_print_stacks(t_ctrl *ctrl, t_node *stka, t_node *stkb)
@@ -30,22 +30,21 @@ void		ps_print_stacks(t_ctrl *ctrl, t_node *stka, t_node *stkb)
 	{
 		if (stka != NULL && stka->next != ctrl->head_a)
 		{
-			ft_printf("%-10d", stka->nb);
+			ft_printf("| %-10d|", stka->nb);
 			stka = stka->next;
 		}
 		if (stkb != NULL && stkb->next != ctrl->head_b)
 		{
-			if (stka->next == ctrl->head_a)
-				ft_printf("%20d", stkb->nb);
-			else
-				ft_printf("%10d", stkb->nb);
+			ft_printf("%10d |", stkb->nb);
 			stkb = stkb->next;
 		}
+		if (stkb == NULL)//&& stkb->next == ctrl->head_b)
+			ft_printf("           |");
 		ft_putchar('\n');
 		if (stkb == NULL && stka->next == ctrl->head_a)
 			break ;
 	}
 	if (ctrl->size_a != 0)
-		ft_printf("%-10d\n", stka->nb);
-	ft_printf("---------------------\n");
+		ft_printf("| %-10d|           |\n", stka->nb);
+	ft_printf("-------------------------\n");
 }

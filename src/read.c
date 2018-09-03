@@ -46,7 +46,7 @@ int			ps_read_and_execute(t_ctrl **ctrl, t_node **stka)
 	stkb = NULL;
 	if (ps_read_input(&move) == -1)
 		return (-1);
-//	ps_cycle_move(ctrl, stka, &stkb, move);
+	ps_cycle_move(ctrl, stka, &stkb, move);
 /*	while ((*stka) != NULL && (*stka)->next != NULL)
 	{
 		if ((*stka)->next == (*ctrl)->tail_a)
