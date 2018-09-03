@@ -15,10 +15,14 @@ SRC_NAME = others/ft_atoi.c is/ft_isalpha.c is/ft_isprint.c lst/ft_lstdel.c\
 	str/ft_strnew.c str/ft_strsplit.c str/ft_strtrim.c is/ft_islower.c\
 	is/ft_isupper.c is/ft_isspace.c is/ft_isblank.c others/ft_hex_to_bin.c\
 	print/ft_putwchar.c print/ft_putwstr.c others/ft_itoa_base.c\
-	str/ft_strtoupper.c getnextline/get_next_line.c
+	str/ft_strtoupper.c getnextline/get_next_line.c\
+	ft_printf/src/ft_printf.c ft_printf/src/fill_list.c ft_printf/src/padding.c\
+	ft_printf/src/length_handler.c ft_printf/src/char_handler.c\
+	ft_printf/src/nb_handler.c ft_printf/src/wide_char_handler.c\
+	ft_printf/src/utils.c ft_printf/src/utils2.c ft_printf/src/pf_itoa_base.c\
+	ft_printf/src/pf_strdup.c
 OBJ_PATH = obj
 OBJ_NAME = $(SRC_NAME:.c=.o)
-FRAMEWORKS = -framework OpenGL -framework AppKit
 NAME = libft.a
 CC = gcc
 CFLAGS = -Werror -Wall -Wextra

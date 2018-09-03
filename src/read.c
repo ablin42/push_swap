@@ -6,47 +6,59 @@
 /*   By: ablin <ablin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 17:49:36 by ablin             #+#    #+#             */
-/*   Updated: 2018/08/30 20:18:39 by ablin            ###   ########.fr       */
+/*   Updated: 2018/09/03 02:46:42 by ablin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/checker.h"
+#include "../includes/push_swap.h"
 #include <stdio.h>
 
-void		test2(t_node *lst)//
+void		ps_cycle_move(t_ctrl **ctrl, t_node **stka,
+		t_node **stkb,  t_node *move)
 {
-	ft_putstr("[");
-	while (lst != NULL && lst->next != NULL)
-	{
-		ft_putnbr(lst->nb);
-		lst = lst->next;
-	}
-	if (lst != NULL)
-		ft_putnbr(lst->nb);
-	ft_putstr("]\n");
-}
+	t_move	handle[3] = {{ "123", move_swap },
+						{ "4", move_push_a },
+						{ "5", move_push_b }};
+	int			i;
 
-int			read_and_execute(t_ctrl *ctrl, t_node *lst)
-{
-	t_node	*move;
-
-	move = NULL;
-	if (read_input(&move) == -1)
-		return (-1);
 	while (1)
 	{
-		if (move->nb == 1)
-			move_swap(ctrl, &lst, move->nb);
-		test(ctrl, lst);
+		i = 0;
+		while (i < 3)
+		{
+			if (ft_strchr(handle[i].nbmove, move->nb + '0') != NULL)
+				handle[i].move_op(ctrl, stka, stkb, move->nb);
+			i++;
+		}
+		ps_print_stacks(*ctrl, *stka, *stkb);
 		if (move->next == NULL)
 			break ;
 		move = move->next;
 	}
-		
-	return (0);
 }
 
-t_node		*add_ins(t_node *move, int movenb)
+int			ps_read_and_execute(t_ctrl **ctrl, t_node **stka)
+{
+	t_node	*move;
+	t_node	*stkb;
+
+	move = NULL;
+	stkb = NULL;
+	if (ps_read_input(&move) == -1)
+		return (-1);
+//	ps_cycle_move(ctrl, stka, &stkb, move);
+/*	while ((*stka) != NULL && (*stka)->next != NULL)
+	{
+		if ((*stka)->next == (*ctrl)->tail_a)
+			break;
+		(*stka) = (*stka)->next;
+		if ((*stka)->nb > (*stka)->next->nb)//check if stkb is empty
+			return (put_return("KO\n", 1));
+	}*/
+	return (put_return("OK\n", 1));
+}
+
+t_node		*ps_add_ins(t_node *move, int movenb)
 {
 	t_node	*element;
 	t_node	*tmp;
@@ -64,7 +76,7 @@ t_node		*add_ins(t_node *move, int movenb)
 	return (move);
 }
 
-int			cycle_arg(t_node **move, char *buf)
+int			ps_cycle_arg(t_node **move, char *buf)
 {
 	char	*tab[11];
 	int		i;
@@ -85,7 +97,7 @@ int			cycle_arg(t_node **move, char *buf)
 	{
 		if (ft_strcmp(buf, tab[i]) == 0)
 		{
-			*move = add_ins(*move, i + 1);
+			*move = ps_add_ins(*move, i + 1);
 			return (0);
 		}
 		i++;
@@ -93,19 +105,7 @@ int			cycle_arg(t_node **move, char *buf)
 	return (-1);
 }
 
-int			parse_input(t_node **move, char *buf)
-{
-	int		i;
-
-	i = 0;
-	if (ft_strlen(buf) != 2 && ft_strlen(buf) != 3)
-		return (-1);
-	if (cycle_arg(move, buf) == -1)
-		return (-1);
-	return (0);
-}
-
-int			read_input(t_node **move)
+int			ps_read_input(t_node **move)
 {
 	int		rd;
 	char	*buf;
@@ -115,9 +115,9 @@ int			read_input(t_node **move)
 	{
 		if (buf[0] == '\0')
 			break ;
-		if (parse_input(move, buf) == -1)
+		if ((ft_strlen(buf) != 2 && ft_strlen(buf) != 3)
+		|| ps_cycle_arg(move,buf) == -1)
 			return (-1);
-		test2(*move);
 	}
 	return (0);
 }

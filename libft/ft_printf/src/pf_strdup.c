@@ -1,39 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   pf_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablin <ablin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/28 17:57:24 by ablin             #+#    #+#             */
-/*   Updated: 2018/09/02 23:50:46 by ablin            ###   ########.fr       */
+/*   Created: 2018/08/09 02:50:38 by ablin             #+#    #+#             */
+/*   Updated: 2018/09/02 21:03:57 by ablin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/push_swap.h"
+#include "../../libft.h"
 
-long long int	ps_atoi(const char *str)
+char	*pf_strdup(const char *s1)
 {
-	int				i;
-	int				signe;
-	long long int	total;
+	int		i;
+	char	*dest;
 
 	i = 0;
-	signe = 1;
-	total = 0;
-	if (str[i] == '-')
+	if (s1 == NULL && s1 == 0)
 	{
-		signe = -1;
+		dest = pf_strdup("(null)");
+		return (dest);
+	}
+	if ((dest = (char*)malloc(sizeof(*s1) * (ft_strlen(s1) + 1))) == NULL)
+		return (NULL);
+	while (s1[i] != '\0')
+	{
+		dest[i] = s1[i];
 		i++;
 	}
-	else if (str[i] == '+')
-		i++;
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		total = total + str[i] - '0';
-		if (str[i + 1] >= '0' && str[i + 1] <= '9' && str[i + 1] != '\0')
-			total = total * 10;
-		i++;
-	}
-	return (total * signe);
+	dest[i] = '\0';
+	return (dest);
 }

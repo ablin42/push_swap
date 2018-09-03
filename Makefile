@@ -1,4 +1,4 @@
-SRC_NAME = error.c utils.c read.c moves.c
+SRC_NAME = error.c utils.c read.c moves.c print.c
 SRC_PATH = src/
 OBJ_PATH = obj/
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -23,10 +23,9 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 clean:
 	rm -fv $(OBJ)
 	@rmdir $(OBJ_PATH) 2> /dev/null || true
-	cd libft && make clean
 
 fclean: clean
-	rm -fv $(NAME)
+	rm -fv $(NAME1)
 
 re: fclean all
 
