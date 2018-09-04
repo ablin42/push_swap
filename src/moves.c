@@ -6,7 +6,7 @@
 /*   By: ablin <ablin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/02 21:51:56 by ablin             #+#    #+#             */
-/*   Updated: 2018/09/03 22:48:53 by ablin            ###   ########.fr       */
+/*   Updated: 2018/09/04 20:40:54 by ablin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	move_r_rotate(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nmove)
 	}
 	if ((*ctrl)->size_b > 1 && (*stkb) != NULL && (nmove == 10 || nmove == 11))
 	{
+		ft_putstr("XD");
 		tmp = (*ctrl)->tail_b;
 		(*ctrl)->head_b = tmp;
 		while (tmp->next != NULL && tmp->next != (*ctrl)->tail_b)

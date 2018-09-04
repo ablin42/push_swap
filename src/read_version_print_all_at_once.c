@@ -6,7 +6,7 @@
 /*   By: ablin <ablin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 17:49:36 by ablin             #+#    #+#             */
-/*   Updated: 2018/09/04 20:33:26 by ablin            ###   ########.fr       */
+/*   Updated: 2018/09/04 20:25:37 by ablin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdio.h>
 
 void		ps_cycle_move(t_ctrl **ctrl, t_node **stka,
-		t_node **stkb, int movenb)
+		t_node **stkb,  t_node *move)
 {
 	t_move	handle[5] = {{ 1, 2, 3, move_swap },
 						{ 4, 4, 4, move_push_a },
@@ -23,24 +23,33 @@ void		ps_cycle_move(t_ctrl **ctrl, t_node **stka,
 						{ 9, 10, 11, move_r_rotate}};
 	int			i;
 
-	i = 0;
-	while (i < 5)
+	while (1)
 	{
-		if (movenb == handle[i].nb1 || movenb == handle[i].nb2
-		|| movenb == handle[i].nb3)
-			handle[i].move_op(ctrl, stka, stkb, movenb);
-		i++;
+		i = 0;
+		while (i < 5)
+		{
+			if (move->nb == handle[i].nb1 || move->nb == handle[i].nb2
+			|| move->nb == handle[i].nb3)
+				handle[i].move_op(ctrl, stka, stkb, move->nb);
+			i++;
+		}
+		ps_print_stacks(*ctrl, *stka, *stkb);
+		if (move->next == NULL)
+			break ;
+		move = move->next;
 	}
-	ps_print_stacks(*ctrl, *stka, *stkb);
 }
 
 int			ps_read_and_execute(t_ctrl **ctrl, t_node **stka)
 {
+	t_node	*move;
 	t_node	*stkb;
 
+	move = NULL;
 	stkb = NULL;
-	if (ps_read_input(ctrl, stka, &stkb) == -1)
+	if (ps_read_input(&move) == -1)
 		return (-1);
+	ps_cycle_move(ctrl, stka, &stkb, move);
 	while ((*stka) != NULL && (*stka)->next != NULL)
 	{
 		if ((*stka)->nb > (*stka)->next->nb || (*ctrl)->size_b != 0)
@@ -52,7 +61,25 @@ int			ps_read_and_execute(t_ctrl **ctrl, t_node **stka)
 	return (put_return("OK\n", 1));
 }
 
-int			ps_cycle_arg(t_ctrl **ctrl, t_node **stka, t_node **stkb, char *buf)
+t_node		*ps_add_ins(t_node *move, int movenb)
+{
+	t_node	*element;
+	t_node	*tmp;
+
+	if ((element = (t_node *)malloc(sizeof(t_node))) == NULL)
+		return (NULL);
+	tmp = move;
+	element->nb = movenb;
+	element->next = NULL;
+	if (move == NULL)
+		return (element);
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	tmp->next = element;
+	return (move);
+}
+
+int			ps_cycle_arg(t_node **move, char *buf)
 {
 	char	*tab[11];
 	int		i;
@@ -73,7 +100,7 @@ int			ps_cycle_arg(t_ctrl **ctrl, t_node **stka, t_node **stkb, char *buf)
 	{
 		if (ft_strcmp(buf, tab[i]) == 0)
 		{
-			ps_cycle_move(ctrl, stka, stkb, i + 1);
+			*move = ps_add_ins(*move, i + 1);
 			return (0);
 		}
 		i++;
@@ -81,7 +108,7 @@ int			ps_cycle_arg(t_ctrl **ctrl, t_node **stka, t_node **stkb, char *buf)
 	return (-1);
 }
 
-int			ps_read_input(t_ctrl **ctrl, t_node **stka, t_node **stkb)
+int			ps_read_input(t_node **move)
 {
 	int		rd;
 	char	*buf;
@@ -92,7 +119,7 @@ int			ps_read_input(t_ctrl **ctrl, t_node **stka, t_node **stkb)
 		if (buf[0] == '\0')
 			break ;
 		if ((ft_strlen(buf) != 2 && ft_strlen(buf) != 3)
-		|| ps_cycle_arg(ctrl, stka, stkb, buf) == -1)
+		|| ps_cycle_arg(move,buf) == -1)
 			return (-1);
 	}
 	return (0);

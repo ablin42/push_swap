@@ -6,13 +6,13 @@
 /*   By: ablin <ablin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/27 20:06:00 by ablin             #+#    #+#             */
-/*   Updated: 2018/09/03 21:09:08 by ablin            ###   ########.fr       */
+/*   Updated: 2018/09/04 20:39:00 by ablin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/push_swap.h"
 
-t_node		*ps_add_node(t_node *stka, int nb)
+t_node		*ps_add_node_back(t_node *stka, int nb)
 {
 	t_node	*element;
 	t_node	*tmp;
@@ -48,7 +48,7 @@ int			ps_cycle_stack(t_node **stka, char **av, int ac)
 		nb = ps_atoi(av[i]);
 		if (nb < INT_MIN || nb > INT_MAX)
 			return (-1);
-		if ((*stka = ps_add_node(*stka, (int)nb)) == NULL)
+		if ((*stka = ps_add_node_back(*stka, (int)nb)) == NULL)
 			return (-1);
 		i++;
 	}

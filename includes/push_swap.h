@@ -64,12 +64,10 @@ void		ps_print_stacks(t_ctrl *ctrl, t_node *stka, t_node *stkb);
 /*
 ** read.c
 */
-//void		ps_cycle_move(t_ctrl **ctrl, t_node **stka, t_node *stkb,
-//			t_node *move);
 int			ps_read_and_execute(t_ctrl **ctrl, t_node **node);
-t_node		*ps_add_ins(t_node *move, int movenb);
-int			ps_cycle_arg(t_node **move, char *buf);
-int			ps_read_input(t_node **move);
+int			ps_cycle_arg(t_ctrl **ctrl, t_node **stka, t_node **stkb,
+			char *buf);
+int			ps_read_input(t_ctrl **ctrl, t_node **stka, t_node **stkb);
 
 /*
  ** error_handler.c
