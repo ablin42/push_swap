@@ -1,0 +1,55 @@
+==93326== Memcheck, a memory error detector
+==93326== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==93326== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==93326== Command: ./checker 1 2 3 4
+==93326== Parent PID: 75747
+==93326== 
+==93326== Conditional jump or move depends on uninitialised value(s)
+==93326==    at 0x1000012AB: ps_add_node_back (checker.c:25)
+==93326==    by 0x1000013BE: ps_cycle_stack (checker.c:51)
+==93326==    by 0x1000015D4: main (checker.c:103)
+==93326==  Uninitialised value was created by a stack allocation
+==93326==    at 0x10000B036: _dyld_start (in /usr/lib/dyld)
+==93326== 
+==93326== 
+==93326== HEAP SUMMARY:
+==93326==     in use at exit: 18,241 bytes in 166 blocks
+==93326==   total heap usage: 317 allocs, 151 frees, 26,934 bytes allocated
+==93326== 
+==93326== 2 bytes in 1 blocks are still reachable in loss record 1 of 45
+==93326==    at 0x1000A0A46: malloc (in /Users/ablin/.brew/Cellar/valgrind/3.13.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==93326==    by 0x1000031FC: ft_strnew (in ./checker)
+==93326==    by 0x10000376D: ft_strjoinfree (in ./checker)
+==93326==    by 0x1000038E9: get_next_line (in ./checker)
+==93326==    by 0x100001C75: ps_read_input (read.c:110)
+==93326==    by 0x100001B48: ps_read_and_execute (read.c:61)
+==93326==    by 0x100001621: main (checker.c:107)
+==93326== 
+==93326== 16 bytes in 1 blocks are definitely lost in loss record 4 of 45
+==93326==    at 0x1000A0A46: malloc (in /Users/ablin/.brew/Cellar/valgrind/3.13.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==93326==    by 0x100001F7D: ps_add_node_front (moves.c:36)
+==93326==    by 0x1000025C7: move_push_b (moves.c:148)
+==93326==    by 0x100001A01: ps_cycle_move (read.c:31)
+==93326==    by 0x100001E48: ps_cycle_arg (read.c:96)
+==93326==    by 0x100001CCE: ps_read_input (read.c:115)
+==93326==    by 0x100001B48: ps_read_and_execute (read.c:61)
+==93326==    by 0x100001621: main (checker.c:107)
+==93326== 
+==93326== 64 bytes in 2 blocks are still reachable in loss record 27 of 45
+==93326==    at 0x1000A0A46: malloc (in /Users/ablin/.brew/Cellar/valgrind/3.13.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==93326==    by 0x10000344D: add_list (in ./checker)
+==93326==    by 0x1000035D2: fetch_fd (in ./checker)
+==93326==    by 0x100003846: get_next_line (in ./checker)
+==93326==    by 0x100001C75: ps_read_input (read.c:110)
+==93326==    by 0x100001B48: ps_read_and_execute (read.c:61)
+==93326==    by 0x100001621: main (checker.c:107)
+==93326== 
+==93326== LEAK SUMMARY:
+==93326==    definitely lost: 16 bytes in 1 blocks
+==93326==    indirectly lost: 0 bytes in 0 blocks
+==93326==      possibly lost: 0 bytes in 0 blocks
+==93326==    still reachable: 66 bytes in 3 blocks
+==93326==         suppressed: 18,159 bytes in 162 blocks
+==93326== 
+==93326== For counts of detected and suppressed errors, rerun with: -v
+==93326== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 14 from 14)

@@ -6,11 +6,28 @@
 /*   By: ablin <ablin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/02 21:51:56 by ablin             #+#    #+#             */
-/*   Updated: 2018/09/04 20:40:54 by ablin            ###   ########.fr       */
+/*   Updated: 2018/09/05 02:46:16 by ablin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
+
+void		show_stack(t_ctrl *ctrl, t_node *stk)
+{
+	int		i = 0;
+
+	stk = ctrl->head_a;
+
+	while (i < ctrl->size_a)
+	{
+		ft_printf("[%d][%p]-", stk->nb, stk);
+		stk = stk->next;
+		i++;
+		if (stk == ctrl->tail_a)
+			ft_putstr("TAIL->");
+	}
+	ft_putchar('\n');
+}
 
 t_node		*ps_add_node_front(t_node *stk, int nb)
 {
@@ -32,16 +49,17 @@ void	move_r_rotate(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nmove)
 
 	if ((*ctrl)->size_a > 1 && (*stka) != NULL && (nmove == 9 || nmove == 11))
 	{
+		show_stack(*ctrl, *stka);
 		tmp = (*ctrl)->tail_a;
 		(*ctrl)->head_a = tmp;
 		while (tmp->next != NULL && tmp->next != (*ctrl)->tail_a)
 			tmp = tmp->next;
 		(*ctrl)->tail_a = tmp;
 		*stka = (*ctrl)->head_a;
+		show_stack(*ctrl, *stka);
 	}
 	if ((*ctrl)->size_b > 1 && (*stkb) != NULL && (nmove == 10 || nmove == 11))
 	{
-		ft_putstr("XD");
 		tmp = (*ctrl)->tail_b;
 		(*ctrl)->head_b = tmp;
 		while (tmp->next != NULL && tmp->next != (*ctrl)->tail_b)
@@ -57,10 +75,12 @@ void	move_rotate(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 
 	if ((*ctrl)->size_a > 1 && (*stka) != NULL && (nbmove == 6 || nbmove == 8))
 	{
+		show_stack(*ctrl, *stka);
 		tmp = (*stka);
 		(*ctrl)->head_a = (*stka)->next;
 		(*ctrl)->tail_a = tmp;
 		*stka = (*ctrl)->head_a;
+		show_stack(*ctrl, *stka);
 	}
 	if ((*ctrl)->size_b > 1 && (*stkb) != NULL && (nbmove == 7 || nbmove == 8))
 	{
@@ -77,9 +97,11 @@ void	move_swap(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 
 	if ((*ctrl)->size_a > 1 && (*stka) != NULL && (nbmove == 1 || nbmove == 3))
 	{
+		show_stack(*ctrl, *stka);
 		tmp = (*stka)->nb;
 		(*stka)->nb = (*stka)->next->nb;
 		(*stka)->next->nb = tmp;
+		show_stack(*ctrl, *stka);
 	}
 	if ((*ctrl)->size_b > 1 && (*stkb) != NULL && (nbmove == 2 || nbmove == 3))
 	{
@@ -95,6 +117,7 @@ void		move_push_a(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 
 	if ((*ctrl)->size_b > 0 && (*stkb) != NULL && nbmove == 4)
 	{
+		show_stack(*ctrl, *stka);
 		*stka = ps_add_node_front(*stka, (*ctrl)->head_b->nb);//less segfaults w/o
 		tmp = (*stkb)->next;
 		ft_memdel((void**)stkb);
@@ -112,6 +135,7 @@ void		move_push_a(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 			*stkb = NULL;
 		}
 		(*ctrl)->size_a++;
+		show_stack(*ctrl, *stka);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: ablin <ablin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 17:49:36 by ablin             #+#    #+#             */
-/*   Updated: 2018/09/04 20:33:26 by ablin            ###   ########.fr       */
+/*   Updated: 2018/09/05 03:31:40 by ablin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,25 @@ void		ps_cycle_move(t_ctrl **ctrl, t_node **stka,
 	}
 	ps_print_stacks(*ctrl, *stka, *stkb);
 }
+
+/*void		freelstbmove(t_ctrl *ctrl, t_node *stkb)//movefolder
+{
+	t_node *tmp;
+
+	if (ctrl->size_b == 1)
+		free(stkb);
+	while (ctrl->size_b > 1 && stkb->next != NULL)
+	{
+		tmp = stkb;
+		stkb = stkb->next;
+		free(tmp);
+		if (stkb == ctrl->tail_b)
+		{
+			free(stkb);
+			break ;
+		}
+	}
+}*/
 
 int			ps_read_and_execute(t_ctrl **ctrl, t_node **stka)
 {
@@ -94,6 +113,8 @@ int			ps_read_input(t_ctrl **ctrl, t_node **stka, t_node **stkb)
 		if ((ft_strlen(buf) != 2 && ft_strlen(buf) != 3)
 		|| ps_cycle_arg(ctrl, stka, stkb, buf) == -1)
 			return (-1);
+		ft_strdel(&buf);
 	}
+	ft_strdel(&buf);
 	return (0);
 }
