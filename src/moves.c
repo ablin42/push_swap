@@ -16,11 +16,11 @@ void		show_stack(t_ctrl *ctrl, t_node *stk)
 {
 	int		i = 0;
 
-	stk = ctrl->head_a;
+//stk = ctrl->head_a;
 
 	while (i < ctrl->size_a)
 	{
-		ft_printf("[%d][%p]-", stk->nb, stk);
+		ft_printf("[%d][%d]-", stk->nb, stk->next->nb);//[%p]-", stk->nb, stk);
 		stk = stk->next;
 		i++;
 		if (stk == ctrl->tail_a)
@@ -36,7 +36,7 @@ t_node		*ps_add_node_front(t_node *stk, int nb)
 	if ((element = (t_node *)malloc(sizeof(t_node))) == NULL)
 		return (NULL);
 	element->nb = nb;
-	element->next = NULL;
+	element->next = element;
 	if (stk == NULL)
 		return (element);
 	element->next = stk;
@@ -49,14 +49,12 @@ void	move_r_rotate(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nmove)
 
 	if ((*ctrl)->size_a > 1 && (*stka) != NULL && (nmove == 9 || nmove == 11))
 	{
-		show_stack(*ctrl, *stka);
 		tmp = (*ctrl)->tail_a;
 		(*ctrl)->head_a = tmp;
 		while (tmp->next != NULL && tmp->next != (*ctrl)->tail_a)
 			tmp = tmp->next;
 		(*ctrl)->tail_a = tmp;
 		*stka = (*ctrl)->head_a;
-		show_stack(*ctrl, *stka);
 	}
 	if ((*ctrl)->size_b > 1 && (*stkb) != NULL && (nmove == 10 || nmove == 11))
 	{
@@ -75,17 +73,17 @@ void	move_rotate(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 
 	if ((*ctrl)->size_a > 1 && (*stka) != NULL && (nbmove == 6 || nbmove == 8))
 	{
-		show_stack(*ctrl, *stka);
 		tmp = (*stka);
 		(*ctrl)->head_a = (*stka)->next;
+		(*ctrl)->tail_a->next = tmp;
 		(*ctrl)->tail_a = tmp;
 		*stka = (*ctrl)->head_a;
-		show_stack(*ctrl, *stka);
 	}
 	if ((*ctrl)->size_b > 1 && (*stkb) != NULL && (nbmove == 7 || nbmove == 8))
 	{
 		tmp = (*stkb);
 		(*ctrl)->head_b = (*stkb)->next;
+		(*ctrl)->tail_b->next = tmp;
 		(*ctrl)->tail_b = tmp;
 		*stkb = (*ctrl)->head_b;
 	}
@@ -97,11 +95,9 @@ void	move_swap(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 
 	if ((*ctrl)->size_a > 1 && (*stka) != NULL && (nbmove == 1 || nbmove == 3))
 	{
-		show_stack(*ctrl, *stka);
 		tmp = (*stka)->nb;
 		(*stka)->nb = (*stka)->next->nb;
 		(*stka)->next->nb = tmp;
-		show_stack(*ctrl, *stka);
 	}
 	if ((*ctrl)->size_b > 1 && (*stkb) != NULL && (nbmove == 2 || nbmove == 3))
 	{
@@ -117,7 +113,6 @@ void		move_push_a(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 
 	if ((*ctrl)->size_b > 0 && (*stkb) != NULL && nbmove == 4)
 	{
-		show_stack(*ctrl, *stka);
 		*stka = ps_add_node_front(*stka, (*ctrl)->head_b->nb);//less segfaults w/o
 		tmp = (*stkb)->next;
 		ft_memdel((void**)stkb);
@@ -127,6 +122,8 @@ void		move_push_a(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 		(*ctrl)->head_a = *stka;
 		if ((*ctrl)->size_a == 0)
 			(*ctrl)->tail_a = *stka;
+		else
+			(*ctrl)->tail_a->next = *stka;
 		(*ctrl)->size_b--;
 		if ((*ctrl)->size_b == 0)//THIS IF COULD PROBABLY BE DELETED
 		{
@@ -135,7 +132,6 @@ void		move_push_a(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 			*stkb = NULL;
 		}
 		(*ctrl)->size_a++;
-		show_stack(*ctrl, *stka);
 	}
 }
 
@@ -152,10 +148,10 @@ void		move_push_b(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 		(*ctrl)->head_a = tmp;
 		(*ctrl)->tail_a->next = tmp;
 		(*ctrl)->head_b = *stkb;
-		if ((*ctrl)->size_b > 0)//
-			(*ctrl)->tail_b->next = *stkb;//
 		if ((*ctrl)->size_b == 0)//
 			(*ctrl)->tail_b = *stkb;// INIT RING BUFFER B
+		else
+			(*ctrl)->tail_b->next = *stkb;//
 		(*ctrl)->size_a--;
 		if ((*ctrl)->size_a == 0)//THIS IF COULD PROBABLY BE DELETED
 		{

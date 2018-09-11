@@ -26,7 +26,7 @@ long long int	ps_atoi(const char *str)
 		signe = -1;
 		i++;
 	}
-	else if (str[i] == '+')
+	else if (str[i] == '+' || str[i] == ' ')
 		i++;
 	while (str[i] >= '0' && str[i] <= '9')
 	{

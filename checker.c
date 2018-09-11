@@ -39,20 +39,31 @@ t_node		*ps_add_node_back(t_node *stka, int nb)
 int			ps_cycle_stack(t_node **stka, char **av, int ac)
 {
 	int				i;
+	int				nbelement;
 	long long int	nb;
+	char			*arg;
 
 	i = 1;
-	nb = 0;
+	nbelement = 0;
 	while (i < ac)
 	{
-		nb = ps_atoi(av[i]);
-		if (nb < INT_MIN || nb > INT_MAX)
-			return (-1);
-		if ((*stka = ps_add_node_back(*stka, (int)nb)) == NULL)
-			return (-1);
+		arg = ft_strdup(av[i]);
+		while (arg != NULL)
+		{
+			nb = ps_atoi(arg);
+			if (nb < INT_MIN || nb > INT_MAX)
+				return (-1);
+			if ((*stka = ps_add_node_back(*stka, (int)nb)) == NULL)
+				return (-1);
+			arg = ft_strchr(arg, ' ');
+			if (arg != NULL && arg[0] == ' ')
+				arg++;
+			nbelement++;
+		}
 		i++;
+		ft_strdel(&arg);
 	}
-	return (0);
+	return (nbelement);
 }
 
 void		ps_fill_ctrl(t_ctrl **ctrl, t_node *stka)
@@ -98,9 +109,8 @@ int			main(int ac, char **av)
 		return (put_return("Error\n", 2));
 	if ((ctrl = (t_ctrl *)malloc(sizeof(t_ctrl))) == NULL)
 		return (0);
-	ctrl->size_a = ac - 1;
 	ctrl->size_b = 0;
-	if (ps_cycle_stack(&stka, av, ac) == -1)
+	if ((ctrl->size_a = ps_cycle_stack(&stka, av, ac)) == -1)
 		return (put_return("Error\n", 2));
 	ps_fill_ctrl(&ctrl, stka);
 	ps_print_stacks(ctrl, stka, NULL);//

@@ -24,7 +24,7 @@ int		check_error(char **av)
 		while (av[i][j] != '\0')
 		{
 			if ((av[i][j] < '0' || av[i][j] > '9')
-			&& av[i][j] != '-' && av[i][j] != '+')
+			&& av[i][j] != '-' && av[i][j] != '+' && av[i][j] != ' ')
 				return (1);
 			j++;
 		}

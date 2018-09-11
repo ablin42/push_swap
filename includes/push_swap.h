@@ -53,6 +53,7 @@ int			ps_cycle_stack(t_node **lst, char **av, int ac);
 /*
 ** moves.c
 */
+void		show_stack(t_ctrl *ctrl, t_node *node);
 t_node		*ps_add_node_front(t_node *stk, int nb);
 void		move_r_rotate(t_ctrl **ctrl, t_node **stka, t_node **stkb,int nbmove);
 void		move_rotate(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove);
