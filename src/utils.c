@@ -12,6 +12,10 @@
 
 #include "../includes/push_swap.h"
 
+/*
+** this function is a slightly refactored atoi for the project
+*/
+
 long long int	ps_atoi(const char *str)
 {
 	int				i;
@@ -36,4 +40,17 @@ long long int	ps_atoi(const char *str)
 		i++;
 	}
 	return (total * signe);
+}
+
+/*
+** this function prints a string to the correct file descriptor and return -1
+** if the file descriptor is STDERR, else it returns 0
+*/
+
+int		put_return(char *msg, int fd)
+{
+	ft_putstr_fd(msg, fd);
+	if (fd == 2)
+		return (-1);
+	return (0);
 }

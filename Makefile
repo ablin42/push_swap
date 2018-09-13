@@ -1,4 +1,4 @@
-SRC_NAME = error.c utils.c read.c moves.c print.c
+SRC_NAME = error.c list.c moves.c print.c read.c utils.c
 SRC_PATH = src/
 OBJ_PATH = obj/
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -10,11 +10,14 @@ LIB = libft/libft.a
 SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
 
-all: $(NAME1)
+all: $(NAME1) $(NAME2)
+	cd libft && make
 
 $(NAME1): $(OBJ)
-	cd libft && make
-	$(CC) $(CFLAGS) checker.c -o $@ $^ $(LIB)
+	$(CC) $(CFLAGS) src/checker.c -o $@ $^ $(LIB)
+
+$(NAME2): $(OBJ)
+	$(CC) $(CFLAGS) src/push_swap.c -o $@ $^ $(LIB)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
@@ -25,7 +28,7 @@ clean:
 	@rmdir $(OBJ_PATH) 2> /dev/null || true
 
 fclean: clean
-	rm -fv $(NAME1)
+	rm -fv $(NAME1) $(NAME2)
 
 re: fclean all
 

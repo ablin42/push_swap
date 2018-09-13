@@ -10,31 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/push_swap.h"
+#include "../includes/push_swap.h"
 
-t_node		*ps_add_node_back(t_node *stka, int nb)
-{
-	t_node	*element;
-	t_node	*tmp;
-
-	if ((element = (t_node *)malloc(sizeof(t_node))) == NULL)
-		return (NULL);
-	tmp = stka;
-	element->nb = nb;
-	element->next = NULL;
-	if (stka == NULL)
-		return (element);
-	while (tmp->next != NULL)
-	{
-		if (nb == tmp->nb)
-			return (NULL);
-		tmp = tmp->next;
-	}
-	if (nb == tmp->nb)
-		return (NULL);
-	tmp->next = element;
-	return (stka);
-}
+/*
+** this function cycles the parameters passed to the program
+** it checks the format of these parameters and calls to ps_add_node_back
+** for each separate number it can find in the parameters.
+*/
 
 int			ps_cycle_stack(t_node **stka, char **av, int ac)
 {
@@ -42,12 +24,14 @@ int			ps_cycle_stack(t_node **stka, char **av, int ac)
 	int				nbelement;
 	long long int	nb;
 	char			*arg;
+	char			*cpy;
 
 	i = 1;
 	nbelement = 0;
 	while (i < ac)
 	{
 		arg = ft_strdup(av[i]);
+		cpy = arg;//because we use arg++ we lose the starting adress
 		while (arg != NULL)
 		{
 			nb = ps_atoi(arg);
@@ -61,10 +45,14 @@ int			ps_cycle_stack(t_node **stka, char **av, int ac)
 			nbelement++;
 		}
 		i++;
-		ft_strdel(&arg);
+		ft_strdel(&cpy);
 	}
 	return (nbelement);
 }
+
+/*
+** this function sets the head_a, tail_a, and size_a for the control struct
+*/
 
 void		ps_fill_ctrl(t_ctrl **ctrl, t_node *stka)
 {
@@ -78,25 +66,10 @@ void		ps_fill_ctrl(t_ctrl **ctrl, t_node *stka)
 	(*ctrl)->tail_a = tmp;
 }
 
-void		ps_free_lst(t_ctrl *ctrl, t_node *stka)
-{
-	t_node *tmp;
-
-	if (ctrl->size_a == 1)
-		free(stka);
-	while (ctrl->size_a > 1 && stka->next != NULL)
-	{
-		tmp = stka;
-		stka = stka->next;
-		free(tmp);
-		if (stka == ctrl->tail_a)
-		{
-			free(stka);
-			break ;
-		}
-	}
-	free(ctrl);
-}
+/*
+** this function calls to the other main functions of the programs and checks
+** their return values
+*/
 
 int			main(int ac, char **av)
 {
@@ -105,7 +78,7 @@ int			main(int ac, char **av)
 
 	if (ac == 1)
 		return (0); //not meant to print OK apparently
-	if (check_error(av) != 0)
+	if (ps_check_format(av) != 0)
 		return (put_return("Error\n", 2));
 	if ((ctrl = (t_ctrl *)malloc(sizeof(t_ctrl))) == NULL)
 		return (0);
@@ -116,6 +89,7 @@ int			main(int ac, char **av)
 	ps_print_stacks(ctrl, stka, NULL);//
 	if (ps_read_and_execute(&ctrl, &stka) == -1)
 		return (put_return("Error\n", 2));
-	ps_free_lst(ctrl, stka);
+	ps_free_stka(ctrl, stka);
+	free(ctrl);
 	return (0);
 }

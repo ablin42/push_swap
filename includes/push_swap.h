@@ -45,39 +45,54 @@ typedef struct		s_move
 t_node		*ps_add_node(t_node *lst, int nb);
 
 /*
-** checker.c
+** checker.c + main
 */
-void		ps_free_lst(t_ctrl *ctrl, t_node *stka);
-int			ps_cycle_stack(t_node **lst, char **av, int ac);
+int				ps_cycle_stack(t_node **lst, char **av, int ac);
+void			ps_fill_ctrl(t_ctrl **ctrl, t_node *stka);
 
 /*
 ** moves.c
 */
-void		show_stack(t_ctrl *ctrl, t_node *node);
-t_node		*ps_add_node_front(t_node *stk, int nb);
-void		move_r_rotate(t_ctrl **ctrl, t_node **stka, t_node **stkb,int nbmove);
-void		move_rotate(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove);
-void		move_swap(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove);
-void		move_push_a(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove);
-void		move_push_b(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove);
+void			move_r_rotate(t_ctrl **ctrl, t_node **stka, t_node **stkb,int nbmove);
+void			move_rotate(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove);
+void			move_swap(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove);
+void			move_push_a(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove);
+void			move_push_b(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove);
 
-void		ps_print_stacks(t_ctrl *ctrl, t_node *stka, t_node *stkb);
 /*
 ** read.c
 */
-int			ps_read_and_execute(t_ctrl **ctrl, t_node **node);
-int			ps_cycle_arg(t_ctrl **ctrl, t_node **stka, t_node **stkb,
-			char *buf);
-int			ps_read_input(t_ctrl **ctrl, t_node **stka, t_node **stkb);
+void			ps_cycle_move(t_ctrl **ctrl, t_node **stka, t_node **stkb,
+				int movenb);
+int				ps_read_and_execute(t_ctrl **ctrl, t_node **node);
+int				ps_cycle_arg(t_ctrl **ctrl, t_node **stka, t_node **stkb,
+				char *buf);
+int				ps_read_input(t_ctrl **ctrl, t_node **stka, t_node **stkb);
 
 /*
- ** error_handler.c
- */
-int			check_error(char **av);
-int			put_return(char *msg, int fd);
+** print.c
+*/
+void			ps_print_ctrl(t_ctrl *ctrl);
+void			ps_print_stacks(t_ctrl *ctrl, t_node *stka, t_node *stkb);
+void			show_stack(t_ctrl *ctrl, t_node *node);//used for debbuging, delete?
 
 /*
- ** utils.c
- */
+** list.c
+*/
+t_node			*ps_add_node_front(t_node *stk, int nb);
+t_node			*ps_add_node_back(t_node *stka, int nb);
+void			ps_free_stka(t_ctrl *ctrl, t_node *stka);
+void			ps_free_stkb(t_ctrl *ctrl, t_node *stka);
+
+/*
+** utils.c
+*/
 long long int	ps_atoi(const char *str);
+int				put_return(char *msg, int fd);
+
+/*
+** error_handler.c
+*/
+int				ps_check_format(char **av);
+
 #endif

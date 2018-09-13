@@ -13,6 +13,10 @@
 #include "../includes/push_swap.h"
 #include <stdio.h>
 
+/*
+** this function calls the proper function for each move number
+*/
+
 void		ps_cycle_move(t_ctrl **ctrl, t_node **stka,
 		t_node **stkb, int movenb)
 {
@@ -29,51 +33,49 @@ void		ps_cycle_move(t_ctrl **ctrl, t_node **stka,
 		if (movenb == handle[i].nb1 || movenb == handle[i].nb2
 		|| movenb == handle[i].nb3)
 		{
-			show_stack(*ctrl, *stka);
+			show_stack(*ctrl, *stka);//
 			handle[i].move_op(ctrl, stka, stkb, movenb);
-			show_stack(*ctrl, *stka);
+			show_stack(*ctrl, *stka);//
 			}
 		i++;
 	}
 	ps_print_stacks(*ctrl, *stka, *stkb);
 }
 
-/*void		freelstbmove(t_ctrl *ctrl, t_node *stkb)//movefolder
-{
-	t_node *tmp;
-
-	if (ctrl->size_b == 1)
-		free(stkb);
-	while (ctrl->size_b > 1 && stkb->next != NULL)
-	{
-		tmp = stkb;
-		stkb = stkb->next;
-		free(tmp);
-		if (stkb == ctrl->tail_b)
-		{
-			free(stkb);
-			break ;
-		}
-	}
-}*/
+/*
+** this function checks if the a stack is properly sorted and if the
+** b stack is empty
+*/
 
 int			ps_read_and_execute(t_ctrl **ctrl, t_node **stka)
 {
 	t_node	*stkb;
+	t_node	*tmp;
 
 	stkb = NULL;
 	if (ps_read_input(ctrl, stka, &stkb) == -1)
 		return (-1);
-	while ((*stka) != NULL && (*stka)->next != NULL)
+	if ((*ctrl)->size_b > 0)
 	{
-		if ((*stka)->nb > (*stka)->next->nb || (*ctrl)->size_b != 0)
+		ps_free_stkb(*ctrl, stkb);
+		return (put_return("KO\n", 1));
+	}
+	tmp = *stka;
+	while (tmp != NULL && tmp->next != NULL)
+	{
+		if (tmp->nb > tmp->next->nb)
 			return (put_return("KO\n", 1));
-		if ((*stka)->next == (*ctrl)->tail_a)
+		if (tmp->next == (*ctrl)->tail_a)
 			break;
-		(*stka) = (*stka)->next;
+		tmp = tmp->next;
 	}
 	return (put_return("OK\n", 1));
 }
+
+/*
+** this function associates a move number to the parsed move string that we
+** read in the ps_read_input function
+*/
 
 int			ps_cycle_arg(t_ctrl **ctrl, t_node **stka, t_node **stkb, char *buf)
 {
@@ -104,13 +106,17 @@ int			ps_cycle_arg(t_ctrl **ctrl, t_node **stka, t_node **stkb, char *buf)
 	return (-1);
 }
 
+/*
+** this function reads the input from STDIN
+*/
+
 int			ps_read_input(t_ctrl **ctrl, t_node **stka, t_node **stkb)
 {
 	int		rd;
 	char	*buf;
 
 	rd = 0;
-	while (get_next_line(0, &buf) > 0)
+	while ((rd = get_next_line(0, &buf)) > 0)
 	{
 		if (buf[0] == '\0')
 			break ;
@@ -119,6 +125,7 @@ int			ps_read_input(t_ctrl **ctrl, t_node **stka, t_node **stkb)
 			return (-1);
 		ft_strdel(&buf);
 	}
-	ft_strdel(&buf);
+	if (rd != 0)
+		ft_strdel(&buf);
 	return (0);
 }

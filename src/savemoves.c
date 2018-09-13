@@ -12,12 +12,36 @@
 
 #include "../includes/push_swap.h"
 
-/*
-** this function (reverse rotate) shifts down all elements of a stack by 1.
-** the last element becomes the first one
-** nmove = 9 -> apply to stack A, nmove = 10 -> apply to stack B
-** nmove = 11 -> apply to both stacks
-*/
+void		show_stack(t_ctrl *ctrl, t_node *stk)
+{
+	int		i = 0;
+
+//stk = ctrl->head_a;
+
+	while (i < ctrl->size_a)
+	{
+		ft_printf("[%d][%d]-", stk->nb, stk->next->nb);//[%p]-", stk->nb, stk);
+		stk = stk->next;
+		i++;
+		if (stk == ctrl->tail_a)
+			ft_putstr("TAIL->");
+	}
+	ft_putchar('\n');
+}
+
+t_node		*ps_add_node_front(t_node *stk, int nb)
+{
+	t_node	*element;
+
+	if ((element = (t_node *)malloc(sizeof(t_node))) == NULL)
+		return (NULL);
+	element->nb = nb;
+	element->next = element;
+	if (stk == NULL)
+		return (element);
+	element->next = stk;
+	return (element);
+}
 
 void	move_r_rotate(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nmove)
 {
@@ -43,13 +67,6 @@ void	move_r_rotate(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nmove)
 	}
 }
 
-/*
-** this function (rotate) shifts up all elements of a stack by 1.
-** the first element becomes the last one
-** nmove = 6 -> apply to stack A, nmove = 7 -> apply to stack B
-** nmove = 8 -> apply to both stacks
-*/
-
 void	move_rotate(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 {
 	t_node	*tmp;
@@ -72,13 +89,6 @@ void	move_rotate(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 	}
 }
 
-/*
-** this function swaps the first 2 elements of a stack
-** (does nothing if there is o nly one or no elements)
-** nmove = 1 -> apply to stack A, nmove = 2 -> apply to stack B
-** nmove = 3 -> apply to both stacks
-*/
-
 void	move_swap(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 {
 	int		tmp;
@@ -97,11 +107,6 @@ void	move_swap(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 	}
 }
 
-/*
-** this function (push a) takes the first element at the top of b and put it at
-** the top of a. Do nothing if b is empty
-*/
-
 void		move_push_a(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 {
 	t_node	*tmp;
@@ -111,6 +116,14 @@ void		move_push_a(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 		*stka = ps_add_node_front(*stka, (*ctrl)->head_b->nb);//less segfaults w/o
 		tmp = (*stkb)->next;
 		ft_memdel((void**)stkb);
+		*stkb = tmp;
+		(*ctrl)->head_b = tmp;
+		(*ctrl)->tail_b->next = tmp;
+		(*ctrl)->head_a = *stka;
+		if ((*ctrl)->size_a == 0)
+			(*ctrl)->tail_a = *stka;
+		else
+			(*ctrl)->tail_a->next = *stka;
 		(*ctrl)->size_b--;
 		if ((*ctrl)->size_b == 0)//THIS IF COULD PROBABLY BE DELETED
 		{
@@ -118,25 +131,9 @@ void		move_push_a(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 			(*ctrl)->tail_b = NULL;//
 			*stkb = NULL;
 		}
-		else
-		{
-			*stkb = tmp;
-			(*ctrl)->head_b = tmp;
-			(*ctrl)->tail_b->next = tmp;
-		}
-		(*ctrl)->head_a = *stka;
-		if ((*ctrl)->size_a == 0)
-			(*ctrl)->tail_a = *stka;
-		else
-			(*ctrl)->tail_a->next = *stka;
 		(*ctrl)->size_a++;
 	}
 }
-
-/*
-** this function (push b) takes the first element at the top of a and put it at
-** the top of b. Do nothing if a is empty
-*/
 
 void		move_push_b(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 {
@@ -147,6 +144,14 @@ void		move_push_b(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 		*stkb = ps_add_node_front(*stkb, (*ctrl)->head_a->nb);//less segfaults w/o
 		tmp = (*stka)->next;
 		ft_memdel((void**)stka);
+		*stka = tmp;
+		(*ctrl)->head_a = tmp;
+		(*ctrl)->tail_a->next = tmp;
+		(*ctrl)->head_b = *stkb;
+		if ((*ctrl)->size_b == 0)//
+			(*ctrl)->tail_b = *stkb;// INIT RING BUFFER B
+		else
+			(*ctrl)->tail_b->next = *stkb;//
 		(*ctrl)->size_a--;
 		if ((*ctrl)->size_a == 0)//THIS IF COULD PROBABLY BE DELETED
 		{
@@ -154,17 +159,6 @@ void		move_push_b(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove)
 			(*ctrl)->tail_a = NULL;//
 			*stka = NULL;
 		}
-		else
-		{
-			*stka = tmp;
-			(*ctrl)->head_a = tmp;
-			(*ctrl)->tail_a->next = tmp;
-		}
-		(*ctrl)->head_b = *stkb;
-		if ((*ctrl)->size_b == 0)//
-			(*ctrl)->tail_b = *stkb;// INIT RING BUFFER B
-		else
-			(*ctrl)->tail_b->next = *stkb;//
 		(*ctrl)->size_b++;
 	}
 }

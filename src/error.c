@@ -12,7 +12,12 @@
 
 #include "../includes/push_swap.h"
 
-int		check_error(char **av)
+/*
+** this function checks if the parameters passed to the program are
+** properly formated
+*/
+
+int		ps_check_format(char **av)
 {
 	int		i;
 	int		j;
@@ -30,13 +35,5 @@ int		check_error(char **av)
 		}
 		i++;
 	}
-	return (0);
-}
-
-int		put_return(char *msg, int fd)
-{
-	ft_putstr_fd(msg, fd);
-	if (fd == 2)
-		return (-1);
 	return (0);
 }

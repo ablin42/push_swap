@@ -12,6 +12,10 @@
 
 #include "../includes/push_swap.h"
 
+/*
+** this function prints the control structure values
+*/
+
 void		ps_print_ctrl(t_ctrl *ctrl)
 {
 	if (ctrl->size_a != 0)
@@ -22,6 +26,10 @@ void		ps_print_ctrl(t_ctrl *ctrl)
 		ctrl->head_b->nb, ctrl->tail_b->nb, ctrl->size_b);
 	ft_printf("%-12s %12s\n-------------------------\n", "STACK_A", "STACK_B");
 }
+
+/*
+** this function prints the state of both stacks
+*/
 
 void		ps_print_stacks(t_ctrl *ctrl, t_node *stka, t_node *stkb)
 {
@@ -51,4 +59,23 @@ void		ps_print_stacks(t_ctrl *ctrl, t_node *stka, t_node *stkb)
 			ft_putstr("           |\n");
 	}
 	ft_putstr("-------------------------\n");
+}
+
+/*
+** this function prints the A stack (used for debugging)
+*/
+
+void		show_stack(t_ctrl *ctrl, t_node *stk)
+{
+	int		i = 0;
+
+	while (i < ctrl->size_a)
+	{
+		ft_printf("[%d][%d]-", stk->nb, stk->next->nb);//[%p]-", stk->nb, stk);
+		stk = stk->next;
+		i++;
+		if (stk == ctrl->tail_a)
+			ft_putstr("TAIL->");
+	}
+	ft_putchar('\n');
 }
