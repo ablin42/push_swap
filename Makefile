@@ -1,4 +1,5 @@
-SRC_NAME = error.c list.c moves.c print.c read.c utils.c
+SRC_NAME = error.c list.c moves.c print.c read.c utils.c changename.c sorting.c\
+utils2.c
 SRC_PATH = src/
 OBJ_PATH = obj/
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -11,9 +12,9 @@ SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
 
 all: $(NAME1) $(NAME2)
-	cd libft && make
 
 $(NAME1): $(OBJ)
+	cd libft && make
 	$(CC) $(CFLAGS) src/checker.c -o $@ $^ $(LIB)
 
 $(NAME2): $(OBJ)

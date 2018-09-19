@@ -11,12 +11,15 @@ typedef struct		s_node
 
 typedef struct		s_ctrl
 {
+	char			*str;
+	int				v_opt;
+	int				ps;
+	int				size_a;
+	int				size_b;
 	struct s_node	*head_a;
 	struct s_node	*tail_a;
 	struct s_node	*head_b;
 	struct s_node	*tail_b;
-	int				size_a;
-	int				size_b;
 }					t_ctrl;
 
 typedef enum		e_move_nb
@@ -42,13 +45,18 @@ typedef struct		s_move
 	void			(*move_op)(t_ctrl **, t_node **, t_node **, int);
 }					t_move;
 
-t_node		*ps_add_node(t_node *lst, int nb);
+/*
+** checker.c -> main
+*/
 
 /*
-** checker.c + main
+** push_swap -> main
+*/
+
+/*
+** changename.c
 */
 int				ps_cycle_stack(t_node **lst, char **av, int ac);
-void			ps_fill_ctrl(t_ctrl **ctrl, t_node *stka);
 
 /*
 ** moves.c
@@ -83,16 +91,30 @@ t_node			*ps_add_node_front(t_node *stk, int nb);
 t_node			*ps_add_node_back(t_node *stka, int nb);
 void			ps_free_stka(t_ctrl *ctrl, t_node *stka);
 void			ps_free_stkb(t_ctrl *ctrl, t_node *stka);
+void			ps_fill_ctrl(t_ctrl **ctrl, t_node *stka);
+
+/*
+** sorting.c
+*/
+void			ps_sort(t_ctrl **ctrl, t_node **stka);
 
 /*
 ** utils.c
 */
 long long int	ps_atoi(const char *str);
 int				put_return(char *msg, int fd);
+int				ps_is_sorted(t_node *stka);
+void			ps_movenb_to_str(t_ctrl **ctrl, int movenb);
+int				ps_getminnb(t_ctrl *ctrl, t_node *stka);
+
+/*
+** utils2.c
+*/
+int				ps_getmaxnb(t_ctrl *ctrl, t_node *stka, int mode);
 
 /*
 ** error_handler.c
 */
-int				ps_check_format(char **av);
+int				ps_check_format(t_ctrl **ctrl, char **av);
 
 #endif

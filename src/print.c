@@ -38,6 +38,8 @@ void		ps_print_stacks(t_ctrl *ctrl, t_node *stka, t_node *stkb)
 
 	a = 0;
 	b = 0;
+	if (ctrl->v_opt == 0)
+		return ;
 	ps_print_ctrl(ctrl);
 	while (a < ctrl->size_a || b < ctrl->size_b)
 	{

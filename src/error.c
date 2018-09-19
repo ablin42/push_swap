@@ -17,7 +17,7 @@
 ** properly formated
 */
 
-int		ps_check_format(char **av)
+int		ps_check_format(t_ctrl **ctrl, char **av)
 {
 	int		i;
 	int		j;
@@ -25,12 +25,18 @@ int		ps_check_format(char **av)
 	i = 1;
 	while (av[i] != NULL)
 	{
-		j = 0;
+		j = 1;
+		if (av[i][0] == '-' && av[i][1] == 'v' && av[i][2] == '\0')
+			(*ctrl)->v_opt = 1;
 		while (av[i][j] != '\0')
 		{
-			if ((av[i][j] < '0' || av[i][j] > '9')
-			&& av[i][j] != '-' && av[i][j] != '+' && av[i][j] != ' ')
-				return (1);
+			if (av[i][0] != '+' && av[i][0] != '-' && !ft_isdigit(av[i][0]))
+				return (-1);
+			if (!ft_isdigit(av[i][j]) && av[i][j] != ' ' && av[i][1] != 'v')
+				return (-1);
+			if (av[i][j] == ' ' && (!ft_isdigit(av[i][j - 1])
+			|| !ft_isdigit(av[i][j + 1])))
+				return (-1);
 			j++;
 		}
 		i++;

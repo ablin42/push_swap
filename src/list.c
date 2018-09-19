@@ -92,3 +92,21 @@ void		ps_free_stkb(t_ctrl *ctrl, t_node *stkb)
 		}
 	}
 }
+
+/*
+** this function sets the head_a, tail_a, and size_a for the control struct
+*/
+
+void		ps_fill_ctrl(t_ctrl **ctrl, t_node *stka)
+{
+	t_node	*tmp;
+
+	tmp = stka;
+	(*ctrl)->head_a = tmp;
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	tmp->next = (*ctrl)->head_a;
+	(*ctrl)->tail_a = tmp;
+}
+
+

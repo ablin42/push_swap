@@ -102,4 +102,5 @@ int					ft_isupper(int c);
 int					ft_isspace(int c);
 int					ft_isblank(int c);
 int					get_next_line(const int fd, char **line);
+void				ft_swap(int *a, int *b);
 #endif

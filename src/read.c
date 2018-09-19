@@ -33,12 +33,14 @@ void		ps_cycle_move(t_ctrl **ctrl, t_node **stka,
 		if (movenb == handle[i].nb1 || movenb == handle[i].nb2
 		|| movenb == handle[i].nb3)
 		{
-			show_stack(*ctrl, *stka);//
+	//		show_stack(*ctrl, *stka);//
 			handle[i].move_op(ctrl, stka, stkb, movenb);
-			show_stack(*ctrl, *stka);//
+	//		show_stack(*ctrl, *stka);//
 			}
 		i++;
 	}
+	if ((*ctrl)->ps == 1)
+		ps_movenb_to_str(ctrl, movenb);
 	ps_print_stacks(*ctrl, *stka, *stkb);
 }
 

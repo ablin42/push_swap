@@ -7,25 +7,25 @@
 
 int			main(int ac, char **av)
 {
-	/*t_node	*stka;
+	t_node	*stka;
 	t_ctrl	*ctrl;
 
 	if (ac == 1)
 		return (0); //not meant to print OK apparently
-	if (ps_check_format(av) != 0)
-		return (put_return("Error\n", 2));
 	if ((ctrl = (t_ctrl *)malloc(sizeof(t_ctrl))) == NULL)
 		return (0);
+	if (ps_check_format(&ctrl, av) != 0)
+		return (put_return("Error: Number not properly formated\n", 2));
 	ctrl->size_b = 0;
+	ctrl->str = NULL;
+	ctrl->ps = 1;
 	if ((ctrl->size_a = ps_cycle_stack(&stka, av, ac)) == -1)
-		return (put_return("Error\n", 2));
+		return (put_return("Error: INT SIZE OVERFLOW\n", 2));
 	ps_fill_ctrl(&ctrl, stka);
-	ps_print_stacks(ctrl, stka, NULL);//
-	if (ps_read_and_execute(&ctrl, &stka) == -1)
-		return (put_return("Error\n", 2));
+	ps_print_stacks(ctrl, stka, NULL);
+	ps_sort(&ctrl, &stka);
 	ps_free_stka(ctrl, stka);
-	free(ctrl);*/
-	(void)ac;
-	(void)av;
+	free(ctrl->str);
+	free(ctrl);
 	return (0);
 }

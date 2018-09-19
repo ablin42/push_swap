@@ -54,3 +54,71 @@ int		put_return(char *msg, int fd)
 		return (-1);
 	return (0);
 }
+
+int		ps_is_sorted(t_node *stka)
+{
+	t_node	*tmp;
+	t_node	*start;
+
+	tmp = stka;
+	start = stka;
+	while (tmp != NULL && tmp->next != NULL)
+	{
+		if (tmp->nb > tmp->next->nb)
+			return (0);
+		tmp = tmp->next;
+		if (tmp->next == start)
+			break;
+	}
+	return (1);
+}
+
+void		ps_movenb_to_str(t_ctrl **ctrl, int movenb)
+{
+	char	*tab[11];
+	char	*dup;
+
+	tab[0] = "sa\n";
+	tab[1] = "sb\n";
+	tab[2] = "ss\n";
+	tab[3] = "pa\n";
+	tab[4] = "pb\n";
+	tab[5] = "ra\n";
+	tab[6] = "rb\n";
+	tab[7] = "rr\n";
+	tab[8] = "rra\n";
+	tab[9] = "rrb\n";
+	tab[10] = "rrr\n";
+	movenb--;
+	if ((*ctrl)->str != NULL)
+		dup = ft_strdup((*ctrl)->str);
+	else
+		dup = ft_strnew(0);
+	free((*ctrl)->str);
+	(*ctrl)->str = ft_strnew(ft_strlen(dup) + ft_strlen(tab[movenb]));
+	ft_strcpy((*ctrl)->str, dup);
+	ft_strcat((*ctrl)->str, tab[movenb]);
+	free(dup);
+}
+
+int			ps_getminnb(t_ctrl *ctrl, t_node *stka)
+{
+	int		i;
+	int		index;
+	int		min;
+
+	i = 1;
+	index = 0;
+	min = stka->nb;
+	while (i < ctrl->size_a)
+	{
+		stka = stka->next;
+		if (min > stka->nb)
+		{
+			min = stka->nb;
+			index = i;
+		}
+		i++;
+	}
+	return (index);
+}

@@ -20,7 +20,7 @@ SRC_NAME = others/ft_atoi.c is/ft_isalpha.c is/ft_isprint.c lst/ft_lstdel.c\
 	ft_printf/src/length_handler.c ft_printf/src/char_handler.c\
 	ft_printf/src/nb_handler.c ft_printf/src/wide_char_handler.c\
 	ft_printf/src/utils.c ft_printf/src/utils2.c ft_printf/src/pf_itoa_base.c\
-	ft_printf/src/pf_strdup.c
+	ft_printf/src/pf_strdup.c others/ft_swap.c
 OBJ_PATH = obj
 OBJ_NAME = $(SRC_NAME:.c=.o)
 NAME = libft.a
