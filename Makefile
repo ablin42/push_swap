@@ -1,5 +1,5 @@
 SRC_NAME = error.c list.c moves.c print.c read.c utils.c changename.c sorting.c\
-utils2.c
+utils2.c tools.c
 SRC_PATH = src/
 OBJ_PATH = obj/
 OBJ_NAME = $(SRC_NAME:.c=.o)

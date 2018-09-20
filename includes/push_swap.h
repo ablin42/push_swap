@@ -105,12 +105,21 @@ long long int	ps_atoi(const char *str);
 int				put_return(char *msg, int fd);
 int				ps_is_sorted(t_node *stka);
 void			ps_movenb_to_str(t_ctrl **ctrl, int movenb);
-int				ps_getminnb(t_ctrl *ctrl, t_node *stka);
+int				ps_getminnb(t_ctrl *ctrl, t_node *stka, int mode);
 
 /*
 ** utils2.c
 */
 int				ps_getmaxnb(t_ctrl *ctrl, t_node *stka, int mode);
+int				ps_next_number(t_ctrl *ctrl, t_node *stka, int nb, int mode);
+
+/*
+** tools.c
+*/
+int				ps_up_or_down(t_ctrl *ctrl, t_node *stka, int nb);
+int				ps_find_suite(t_ctrl *ctrl, t_node *stka, int indexnb, int mode);
+int				ps_valid_suite(t_ctrl *ctrl, t_node *stka);
+int				ps_lowest_suite_nb(t_ctrl *ctrl, t_node *stka, int st, int s2);
 
 /*
 ** error_handler.c
