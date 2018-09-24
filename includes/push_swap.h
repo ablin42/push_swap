@@ -70,7 +70,7 @@ void			move_push_b(t_ctrl **ctrl, t_node **stka, t_node **stkb, int nbmove);
 /*
 ** read.c
 */
-void			ps_cycle_move(t_ctrl **ctrl, t_node **stka, t_node **stkb,
+int				ps_cycle_move(t_ctrl **ctrl, t_node **stka, t_node **stkb,
 				int movenb);
 int				ps_read_and_execute(t_ctrl **ctrl, t_node **node);
 int				ps_cycle_arg(t_ctrl **ctrl, t_node **stka, t_node **stkb,

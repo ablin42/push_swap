@@ -9,7 +9,7 @@ int			ps_getmaxnb(t_ctrl *ctrl, t_node *stka, int mode)
 	i = 0;
 	index = 0;
 	max = stka->nb;
-	while (i < ctrl->size_a)
+	while (i < ctrl->size_b)
 	{
 		stka = stka->next;
 		if (max < stka->nb)

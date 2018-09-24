@@ -6,7 +6,7 @@
 /*   By: ablin <ablin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 17:49:36 by ablin             #+#    #+#             */
-/*   Updated: 2018/09/05 03:31:40 by ablin            ###   ########.fr       */
+/*   Updated: 2018/09/24 18:08:58 by ablin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** this function calls the proper function for each move number
 */
 
-void		ps_cycle_move(t_ctrl **ctrl, t_node **stka,
+int			ps_cycle_move(t_ctrl **ctrl, t_node **stka,
 		t_node **stkb, int movenb)
 {
 	t_move	handle[5] = {{ 1, 2, 3, move_swap },
@@ -42,6 +42,7 @@ void		ps_cycle_move(t_ctrl **ctrl, t_node **stka,
 	if ((*ctrl)->ps == 1)
 		ps_movenb_to_str(ctrl, movenb);
 	ps_print_stacks(*ctrl, *stka, *stkb);
+	return (1);
 }
 
 /*
