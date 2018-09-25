@@ -6,7 +6,7 @@
 /*   By: ablin <ablin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 02:50:15 by ablin             #+#    #+#             */
-/*   Updated: 2018/09/04 20:45:47 by ablin            ###   ########.fr       */
+/*   Updated: 2018/09/25 23:24:17 by ablin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void		ps_print_stacks(t_ctrl *ctrl, t_node *stka, t_node *stkb)
 	b = 0;
 	if (ctrl->v_opt == 0)
 		return ;
-	ps_print_ctrl(ctrl);
+//	ps_print_ctrl(ctrl);
 	while (a < ctrl->size_a || b < ctrl->size_b)
 	{
 		if (a < ctrl->size_a)//check for null value

@@ -7,9 +7,9 @@ int			ps_up_or_down(t_ctrl *ctrl, t_node *stka, int nb)
 	t_node	*tmp;
 
 	i = 1;
-	size = ctrl->size_a;
+	size = ctrl->size_b;
 	tmp = stka;
-	while (i < ctrl->size_a)
+	while (i < ctrl->size_b)
 	{
 		if (tmp->nb == nb)
 			break;
@@ -19,8 +19,8 @@ int			ps_up_or_down(t_ctrl *ctrl, t_node *stka, int nb)
 	if (size % 2 != 0)
 		size++;
 	if (i <= size / 2)
-		return (RA);
-	return (RRA);
+		return (RB);
+	return (RRB);
 }
 
 int		ps_find_suite(t_ctrl *ctrl, t_node *stka, int indexnb, int mode)

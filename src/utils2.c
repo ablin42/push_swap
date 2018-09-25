@@ -1,6 +1,6 @@
 #include "../includes/push_swap.h"
 
-int			ps_getmaxnb(t_ctrl *ctrl, t_node *stka, int mode)
+int			ps_getmaxnb(t_ctrl *ctrl, t_node *stka, int size, int mode)
 {
 	int		i;
 	int		index;
@@ -9,7 +9,7 @@ int			ps_getmaxnb(t_ctrl *ctrl, t_node *stka, int mode)
 	i = 0;
 	index = 0;
 	max = stka->nb;
-	while (i < ctrl->size_b)
+	while (i < size)
 	{
 		stka = stka->next;
 		if (max < stka->nb)
@@ -31,8 +31,8 @@ int			ps_next_number(t_ctrl *ctrl, t_node *stka, int nb, int mode)
 	int		index;
 
 	i = 0;
-	index = ps_getmaxnb(ctrl, stka, 0);
-	diff = ps_getmaxnb(ctrl, stka, 1) - nb;
+	index = ps_getmaxnb(ctrl, stka, ctrl->size_a, 0);
+	diff = ps_getmaxnb(ctrl, stka, ctrl->size_a, 1) - nb;
 	while (i < ctrl->size_a)
 	{
 		if (stka->nb > nb && (stka->nb - nb) < diff)

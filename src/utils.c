@@ -6,7 +6,7 @@
 /*   By: ablin <ablin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 17:57:24 by ablin             #+#    #+#             */
-/*   Updated: 2018/09/19 20:02:25 by ablin            ###   ########.fr       */
+/*   Updated: 2018/09/25 20:36:55 by ablin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void		ps_movenb_to_str(t_ctrl **ctrl, int movenb)
 	free(dup);
 }
 
-int			ps_getminnb(t_ctrl *ctrl, t_node *stka, int mode)
+int			ps_getminnb(t_ctrl *ctrl, t_node *stka, int size, int mode)
 {
 	int		i;
 	int		index;
@@ -110,7 +110,7 @@ int			ps_getminnb(t_ctrl *ctrl, t_node *stka, int mode)
 	i = 1;
 	index = 0;
 	min = stka->nb;
-	while (i < ctrl->size_a)
+	while (i < size)
 	{
 		stka = stka->next;
 		if (min > stka->nb)
