@@ -16,30 +16,21 @@ int			pick_pivot_moy(t_ctrl *ctrl, t_node *stka)//DEPRECATED
 	return (ps_next_nb_a(ctrl, stka, total, 1));//1 for nb, 0 for index's nb
 }
 
-int			pick_pivot_mid(t_ctrl *ctrl, t_node *stka)
+int			pick_pivot_med(t_ctrl *ctrl, t_node *stka)
 {
-	int		place;
-	t_node	*tmp;
-	t_node	*before;
+	int		arr[ctrl->size_a];
+	int		i;
+	int		nb;
 
-	place = (ctrl->size_a / 2);
-	tmp = stka;
-	while (place > 0)
+	i = 1;
+	arr[0] = ps_getminnb(ctrl, stka, ctrl->size_a, 1);
+	while (i < ctrl->size_a)
 	{
-		if (place == 1)
-			before = tmp;
-		tmp = tmp->next;
-		place--;
+		arr[i] = ps_next_nb_a(ctrl, stka, arr[i - 1], 1);
+		i++;
 	}
-	if ((tmp->nb == ps_getmaxnb(ctrl, stka, ctrl->size_a, 1)
-	&& tmp->next->nb == ps_getminnb(ctrl, stka, ctrl->size_a, 1))
-	|| (tmp->nb == ps_getminnb(ctrl, stka, ctrl->size_a, 1)
-	&& tmp->next->nb == ps_getmaxnb(ctrl, stka, ctrl->size_a, 1)))
-		tmp = before;
-	else if (tmp->nb == ps_getmaxnb(ctrl, stka, ctrl->size_a, 1)
-	|| tmp->nb == ps_getminnb(ctrl, stka, ctrl->size_a, 1))
-		tmp = tmp->next;
-	return (tmp->nb);
+	i = 0;
+	return (arr[ctrl->size_a / 2]);
 }
 
 void		ps_selectsort(t_ctrl **ctrl, t_node **stka, t_node **stkb)
@@ -73,14 +64,91 @@ void		ps_quicksort(t_ctrl **ctrl, t_node **stka, t_node **stkb, int pivot)
 		ps_cycle_move(ctrl, stka, stkb, RRA);
 	while ((*stka)->nb > pivot && ps_is_sorted(*stka) != 1)
 		ps_cycle_move(ctrl, stka, stkb, RA);
-	while ((*ctrl)->size_a > 1 && (*stka)->nb <= pivot
-	&& ps_is_sorted(*stka) != 1)// && (*ctrl)->size_a > (*ctrl)->size_b)
-	{
+	//while ((*ctrl)->size_a > 1 && (*stka)->nb <= pivot
+	//&& ps_is_sorted(*stka) != 1)// && (*ctrl)->size_a > (*ctrl)->size_b)
+	//{
 		if ((*ctrl)->size_a > 1
 		&& ps_next_nb_a(*ctrl, *stka, (*stka)->next->nb, 0) == 0)
 			ps_cycle_move(ctrl, stka, stkb, SA);
 		if (ps_is_sorted(*stka) != 1)
 			ps_cycle_move(ctrl, stka, stkb, PB);
+	//}
+}
+
+int			ps_getmode(t_node *stka, int pivot)
+{
+	int		above;
+	int		under;
+	t_node	*tmp;
+
+	above = 0;
+	under = 0;
+	tmp = stka;
+	while (tmp->nb != pivot)
+	{
+		if (tmp->nb > pivot)
+			above++;
+		else if (tmp->nb < pivot)
+			under++;
+		tmp = tmp->next;
+	}
+	if (above > under || above == 0)
+		return (under * -1);
+	return (above);
+}
+
+void		ps_selfsort(t_ctrl **ctrl, t_node **stka, t_node **stkb, int pivot)
+{
+	int		mode;
+
+	mode = ps_getmode(*stka, pivot);
+	ft_printf("[%d][%d]\n", mode, pivot);
+	while (mode > 0)
+	{
+		if (ps_next_nb_a(*ctrl, *stka, (*stka)->next->nb, 0) == 0)
+			ps_cycle_move(ctrl, stka, stkb, SA);
+		else if ((*stka)->nb > pivot && (*stka)->nb != pivot)
+		{
+			ps_cycle_move(ctrl, stka, stkb, PB);
+			mode--;
+		}
+		else
+			ps_cycle_move(ctrl, stka, stkb, RA);
+	}
+	while (mode < 0 && (*stka)->nb != pivot)
+	{
+		if (ps_next_nb_a(*ctrl, *stka, (*stka)->next->nb, 0) == 0)
+			ps_cycle_move(ctrl, stka, stkb, SA);
+		else if ((*stka)->nb < pivot)
+		{
+			ps_cycle_move(ctrl, stka, stkb, PB);
+			mode++;
+		}
+		else
+			ps_cycle_move(ctrl, stka, stkb, RA);
+	}
+	if (mode == 0 && (*stka)->nb == pivot)
+		ps_cycle_move(ctrl, stka, stkb, RA);
+}
+
+void		ps_mergesort(t_ctrl **ctrl, t_node **stka, t_node **stkb)
+{
+	int		i;
+	//int		start;
+	
+	i = 0;
+	while (ps_is_sorted(*stka) != 1)//while stka nb != start
+	{
+	//	ft_printf("[%d]\n", (*ctrl)->size_a);
+		if ((*stka)->nb > (*stka)->next->nb)
+			ps_cycle_move(ctrl, stka, stkb, PB);
+		else
+		{
+		//	if (i == 0)
+		//		start = (*stka)->nb;
+			i++;
+			ps_cycle_move(ctrl, stka, stkb, RA);
+		}
 	}
 }
 
@@ -90,12 +158,19 @@ void		ps_sort(t_ctrl **ctrl, t_node **stka)
 	t_node	*stkb;
 
 	stkb = NULL;
-	while (ps_is_sorted(*stka) != 1)// && (*ctrl)->size_a > (*ctrl)->size_b)
-		ps_quicksort(ctrl, stka, &stkb, pick_pivot_moy(*ctrl, *stka));
-	while ((*ctrl)->size_b > 0)
-		ps_selectsort(ctrl, stka, &stkb);
-	while (ps_getminnb(*ctrl, *stka, (*ctrl)->size_a, 0) != 0)
-		ps_cycle_move(ctrl, stka, &stkb, RRA);
+	//ft_printf("{%d}{%d}{%d}\n", pick_pivot_moy(*ctrl, *stka), pick_pivot_mid(*ctrl, *stka), pick_pivot_med(*ctrl, *stka));
+//	while (ps_is_sorted(*stka) != 1)// && (*ctrl)->size_a > (*ctrl)->size_b)
+//		ps_quicksort(ctrl, stka, &stkb, pick_pivot_med(*ctrl, *stka));
+	//ft_putstr("QUICKSORT ENDED NOW\n");
+while (ps_is_sorted(*stka) != 1)
+	ps_selfsort(ctrl, stka, &stkb, pick_pivot_med(*ctrl, *stka));
+//	ps_mergesort(ctrl, stka, &stkb);
+//	ft_putstr("MERGESORT ENDED NOW\n");
+//	while ((*ctrl)->size_b > 0)
+//		ps_selectsort(ctrl, stka, &stkb);
+//	ft_putstr("SELECTSORT ENDED NOW\n");
+//	while (ps_getminnb(*ctrl, *stka, (*ctrl)->size_a, 0) != 0)
+//		ps_cycle_move(ctrl, stka, &stkb, RRA);
 	ft_putstr((*ctrl)->str);
 }
 /*void		ps_selectsort(t_ctrl **ctrl, t_node **stka, t_node **stkb)

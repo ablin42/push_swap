@@ -10,9 +10,7 @@ limit=$(($2 * 100))
 while [[ $nbmove -le $3  &&  $nbtest -le $limit ]]
 do
 	arg=`ruby -e "puts ($1..$2).to_a.shuffle.join(' ')"`
-	echo "prout"
 	nbmove=`./push_swap $arg | wc -l | tr -d " "`
-	echo "XD"
 	nbtest=$((nbtest+1))
 	moyenne=$((moyenne + nbmove))
 	echo $nbtest
