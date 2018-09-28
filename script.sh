@@ -4,13 +4,23 @@
 arg=`ruby -e "puts ($1..$2).to_a.shuffle.join(' ')"`
 nbmove=`./push_swap $arg | wc -l | tr -d " "`
 nbtest='0'
+moyenne='0'
+limit=$(($2 * 100))
 
-while [ $nbmove -le $3 ]
+while [[ $nbmove -le $3  &&  $nbtest -le $limit ]]
 do
 	arg=`ruby -e "puts ($1..$2).to_a.shuffle.join(' ')"`
+	echo "prout"
 	nbmove=`./push_swap $arg | wc -l | tr -d " "`
+	echo "XD"
 	nbtest=$((nbtest+1))
-	#echo $nbtest
+	moyenne=$((moyenne + nbmove))
+	echo $nbtest
 done
 
-echo "ARGS=[$arg] / NB OF MOVES=[$nbmove] / NB OF TESTS=[$nbtest]"
+moyenne=$((moyenne / nbtest))
+
+echo "ARGS=[$arg]"
+echo "NB OF MOVES=[$nbmove]"
+echo "NB OF TESTS=[$nbtest]"
+echo "MOYENNE=[$moyenne]"

@@ -1,6 +1,6 @@
 #include "../includes/push_swap.h"
 
-int			ps_up_or_down(t_ctrl *ctrl, t_node *stka, int nb)
+int			ps_up_or_down(t_ctrl *ctrl, t_node *stka, int nb, int stack)
 {
 	int		i;
 	int		size;
@@ -18,11 +18,15 @@ int			ps_up_or_down(t_ctrl *ctrl, t_node *stka, int nb)
 	}
 	if (size % 2 != 0)
 		size++;
-	if (i <= size / 2)
+	if (i <= size / 2 && stack == 1)
 		return (RB);
-	return (RRB);
+	else if (i <= size / 2 && stack == 0)
+		return (RA);
+	else if (stack == 1)
+		return (RRB);
+	return (RRA);
 }
-
+/*
 int		ps_find_suite(t_ctrl *ctrl, t_node *stka, int indexnb, int mode)
 {
 	t_node	*tmp;
@@ -44,8 +48,8 @@ int		ps_find_suite(t_ctrl *ctrl, t_node *stka, int indexnb, int mode)
 		tmp = tmp->next;
 	}
 	return (0);
-}
-
+}*/
+/*
 int		ps_valid_suite(t_ctrl *ctrl, t_node *stka)
 {
 	t_node	*tmp;
@@ -67,7 +71,7 @@ int		ps_valid_suite(t_ctrl *ctrl, t_node *stka)
 		tmp = tmp->next;
 	}
 	return (i);
-}
+}*/
 
 int			ps_lowest_suite_nb(t_ctrl *ctrl, t_node *stka, int st, int st2)
 {

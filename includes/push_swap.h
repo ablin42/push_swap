@@ -111,12 +111,14 @@ int				ps_getminnb(t_ctrl *ctrl, t_node *stka, int size, int mode);
 ** utils2.c
 */
 int				ps_getmaxnb(t_ctrl *ctrl, t_node *stka, int size, int mode);
-int				ps_next_number(t_ctrl *ctrl, t_node *stka, int nb, int mode);
+int				ps_next_nb_a(t_ctrl *ctrl, t_node *stka, int nb, int mode);
+int				ps_next_nb_b(t_ctrl *ctrl, t_node *stkb, int nb, int mode);
+int				ps_next_nb_all(t_ctrl *ctrl, t_node *stka, t_node *stkb, int nb);
 
 /*
 ** tools.c
 */
-int				ps_up_or_down(t_ctrl *ctrl, t_node *stka, int nb);
+int				ps_up_or_down(t_ctrl *ctrl, t_node *stka, int nb, int stack);
 int				ps_find_suite(t_ctrl *ctrl, t_node *stka, int indexnb, int mode);
 int				ps_valid_suite(t_ctrl *ctrl, t_node *stka);
 int				ps_lowest_suite_nb(t_ctrl *ctrl, t_node *stka, int st, int s2);

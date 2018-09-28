@@ -24,7 +24,7 @@ int			ps_getmaxnb(t_ctrl *ctrl, t_node *stka, int size, int mode)
 	return (index);
 }
 
-int			ps_next_number(t_ctrl *ctrl, t_node *stka, int nb, int mode)
+int			ps_next_nb_a(t_ctrl *ctrl, t_node *stka, int nb, int mode)
 {
 	int		i;
 	int		diff;
@@ -46,4 +46,46 @@ int			ps_next_number(t_ctrl *ctrl, t_node *stka, int nb, int mode)
 	if (mode == 1)
 		return (diff + nb);
 	return (index);
+}
+
+int			ps_next_nb_b(t_ctrl *ctrl, t_node *stkb, int nb, int mode)
+{
+	int		i;
+	int		diff;
+	int		index;
+
+	i = 0;
+	index = ps_getmaxnb(ctrl, stkb, ctrl->size_b, 0);
+	diff = ps_getmaxnb(ctrl, stkb, ctrl->size_b, 1) - nb;
+	while (i < ctrl->size_a)
+	{
+		if (stkb->nb > nb && (stkb->nb - nb) < diff)
+		{
+			diff = stkb->nb - nb;
+			index = i;//+1?
+		}
+		i++;
+		stkb = stkb->next;
+	}
+	if (mode == 1)
+		return (diff + nb);
+	return (index);
+}
+
+int			ps_next_nb_all(t_ctrl *ctrl, t_node *stka, t_node *stkb, int nb)
+{
+	int		next_a;
+	int		next_b;
+
+	next_a = ps_next_nb_a(ctrl, stka, nb, 1);
+	next_b = ps_next_nb_b(ctrl, stkb, nb, 1);
+	ft_printf("(%d)", nb);
+	if (next_b < next_a && next_b != ps_getmaxnb(ctrl, stkb, ctrl->size_b, 1))
+		ps_next_nb_all(ctrl, stka, stkb, next_b);
+
+/*	while (ctrl->size_b > 1
+	&& next_b < next_a && next_b != ps_getmaxnb(ctrl, stkb, ctrl->size_b, 1))
+		next_b = ps_next_nb_b(ctrl, stkb, next_b, 1);*/
+	ft_printf("(%d)(%d)\n", next_a, next_b);
+	return (next_a);
 }
