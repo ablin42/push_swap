@@ -22,6 +22,12 @@ typedef struct		s_ctrl
 	struct s_node	*tail_b;
 }					t_ctrl;
 
+typedef struct		s_nextnb
+{
+	int				a;
+	int				b;
+}					t_nextnb;
+
 typedef enum		e_move_nb
 {
 	SA = 1,
@@ -113,7 +119,7 @@ int				ps_getminnb(t_ctrl *ctrl, t_node *stka, int size, int mode);
 int				ps_getmaxnb(t_ctrl *ctrl, t_node *stka, int size, int mode);
 int				ps_next_nb_a(t_ctrl *ctrl, t_node *stka, int nb, int mode);
 int				ps_next_nb_b(t_ctrl *ctrl, t_node *stkb, int nb, int mode);
-int				ps_next_nb_all(t_ctrl *ctrl, t_node *stka, t_node *stkb, int nb);
+t_nextnb		ps_next_nb_all(t_ctrl *ctrl, t_node *stka, t_node *stkb, int nb);
 
 /*
 ** tools.c

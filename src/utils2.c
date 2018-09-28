@@ -57,7 +57,7 @@ int			ps_next_nb_b(t_ctrl *ctrl, t_node *stkb, int nb, int mode)
 	i = 0;
 	index = ps_getmaxnb(ctrl, stkb, ctrl->size_b, 0);
 	diff = ps_getmaxnb(ctrl, stkb, ctrl->size_b, 1) - nb;
-	while (i < ctrl->size_a)
+	while (i < ctrl->size_b)
 	{
 		if (stkb->nb > nb && (stkb->nb - nb) < diff)
 		{
@@ -72,20 +72,14 @@ int			ps_next_nb_b(t_ctrl *ctrl, t_node *stkb, int nb, int mode)
 	return (index);
 }
 
-int			ps_next_nb_all(t_ctrl *ctrl, t_node *stka, t_node *stkb, int nb)
+t_nextnb	ps_next_nb_all(t_ctrl *ctrl, t_node *stka, t_node *stkb, int nb)
 {
-	int		next_a;
-	int		next_b;
+	static t_nextnb		next;
 
-	next_a = ps_next_nb_a(ctrl, stka, nb, 1);
-	next_b = ps_next_nb_b(ctrl, stkb, nb, 1);
-	ft_printf("(%d)", nb);
-	if (next_b < next_a && next_b != ps_getmaxnb(ctrl, stkb, ctrl->size_b, 1))
-		ps_next_nb_all(ctrl, stka, stkb, next_b);
-
-/*	while (ctrl->size_b > 1
-	&& next_b < next_a && next_b != ps_getmaxnb(ctrl, stkb, ctrl->size_b, 1))
-		next_b = ps_next_nb_b(ctrl, stkb, next_b, 1);*/
-	ft_printf("(%d)(%d)\n", next_a, next_b);
-	return (next_a);
+	next.a = ps_next_nb_a(ctrl, stka, nb, 1);
+	next.b = ps_next_nb_b(ctrl, stkb, nb, 1);
+//	ft_printf("(%d)(%d)(%d)\n", nb, next.a, next.b);
+	if (next.b < next.a && next.b != ps_getmaxnb(ctrl, stkb, ctrl->size_b, 1))
+		ps_next_nb_all(ctrl, stka, stkb, next.b);
+	return (next);
 }

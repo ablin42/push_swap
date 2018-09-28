@@ -44,31 +44,24 @@ int			pick_pivot_mid(t_ctrl *ctrl, t_node *stka)
 
 void		ps_selectsort(t_ctrl **ctrl, t_node **stka, t_node **stkb)
 {
-	int		max_b;
-	int		next_a;
+	t_nextnb	next;
 
-	max_b = ps_getmaxnb(*ctrl, *stkb, (*ctrl)->size_b, 1);
-	next_a = ps_next_nb_a(*ctrl, *stka, max_b, 1);
-	ft_printf("[[%d]]\n", ps_next_nb_all(*ctrl, *stka, *stkb, (*stkb)->nb));
-//	ft_printf("{%d}{%d}{%d}\n", next_a, max_b, ps_next_nb_a(*ctrl, *stka, max_b, 0));
-	while (ps_next_nb_a(*ctrl, *stka, max_b, 0) != 0 && (*stkb)->nb != max_b)
+	next = ps_next_nb_all(*ctrl, *stka, *stkb, (*stkb)->nb);
+	while ((*stka)->nb != next.a && (*stkb)->nb != next.b)
 	{
-		if (ps_up_or_down(*ctrl, *stka, next_a, 0) == RRA
-		&& ps_up_or_down(*ctrl, *stkb, max_b, 1) == RRB)
+		if (ps_up_or_down(*ctrl, *stka, next.a, 0) == RRA
+		&& ps_up_or_down(*ctrl, *stkb, next.b, 1) == RRB)
 			ps_cycle_move(ctrl, stka, stkb, RRR);
-		else if (ps_up_or_down(*ctrl, *stka, next_a, 0) == RA
-		&& ps_up_or_down(*ctrl, *stkb, max_b, 1) == RB)
+		else if (ps_up_or_down(*ctrl, *stka, next.a, 0) == RA
+		&& ps_up_or_down(*ctrl, *stkb, next.b, 1) == RB)
 			ps_cycle_move(ctrl, stka, stkb, RR);
 		else
 			break;
 	}
-
-	while (ps_getmaxnb(*ctrl, *stkb, (*ctrl)->size_b, 0) != 0)
-		ps_cycle_move(ctrl, stka, stkb,
-		ps_up_or_down(*ctrl, *stkb, max_b, 1));
-	while ((*stka)->nb != next_a)
-		ps_cycle_move(ctrl, stka, stkb,
-		ps_up_or_down(*ctrl, *stka, next_a, 0));
+	while ((*stkb)->nb != next.b)
+		ps_cycle_move(ctrl, stka, stkb, ps_up_or_down(*ctrl, *stkb, next.b, 1));
+	while ((*stka)->nb != next.a)
+		ps_cycle_move(ctrl, stka, stkb, ps_up_or_down(*ctrl, *stka, next.a, 0));
 	ps_cycle_move(ctrl, stka, stkb, PA);
 }
 
@@ -105,3 +98,32 @@ void		ps_sort(t_ctrl **ctrl, t_node **stka)
 		ps_cycle_move(ctrl, stka, &stkb, RRA);
 	ft_putstr((*ctrl)->str);
 }
+/*void		ps_selectsort(t_ctrl **ctrl, t_node **stka, t_node **stkb)
+{
+	int		max_b;
+	int		next_a;
+
+	max_b = ps_getmaxnb(*ctrl, *stkb, (*ctrl)->size_b, 1);
+	next_a = ps_next_nb_a(*ctrl, *stka, max_b, 1);
+//	ft_printf("[[%d]]\n", ps_next_nb_all(*ctrl, *stka, *stkb, (*stkb)->nb));
+//	ft_printf("{%d}{%d}{%d}\n", next_a, max_b, ps_next_nb_a(*ctrl, *stka, max_b, 0));
+	while (ps_next_nb_a(*ctrl, *stka, max_b, 0) != 0 && (*stkb)->nb != max_b)
+	{
+		if (ps_up_or_down(*ctrl, *stka, next_a, 0) == RRA
+		&& ps_up_or_down(*ctrl, *stkb, max_b, 1) == RRB)
+			ps_cycle_move(ctrl, stka, stkb, RRR);
+		else if (ps_up_or_down(*ctrl, *stka, next_a, 0) == RA
+		&& ps_up_or_down(*ctrl, *stkb, max_b, 1) == RB)
+			ps_cycle_move(ctrl, stka, stkb, RR);
+		else
+			break;
+	}
+
+	while (ps_getmaxnb(*ctrl, *stkb, (*ctrl)->size_b, 0) != 0)
+		ps_cycle_move(ctrl, stka, stkb,
+		ps_up_or_down(*ctrl, *stkb, max_b, 1));
+	while ((*stka)->nb != next_a)
+		ps_cycle_move(ctrl, stka, stkb,
+		ps_up_or_down(*ctrl, *stka, next_a, 0));
+	ps_cycle_move(ctrl, stka, stkb, PA);
+}*/
